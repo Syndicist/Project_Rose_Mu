@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var host = get_parent().get_parent();
+onready var attack = get_parent().get_node("Attack");
 
 func enter():
 	host.state = 'attack';

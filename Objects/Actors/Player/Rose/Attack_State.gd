@@ -8,9 +8,15 @@ var combo_attack = 'nil';
 var current_attack = 'nil';
 var pierce_enabled = false;
 var bash_enabled = false;
+#starting the attack
 var start = false;
+#middle of the attack
 var mid = false;
 var special = "";
+var on_cooldown = false;
+var interrupt = 1;
+var distance_traversable = 80;
+var dashing = false;
 
 func enter():
 	host.state = 'attack';
@@ -25,6 +31,7 @@ func handleInput(event):
 			special = "Special";
 		else:
 			special = "";
+		#if an attack is triggered, commit to it
 		if(event.is_action_just_pressed("attack")):
 			if(event.is_action_just_pressed("slash")):
 				current_attack = 'X';
@@ -37,6 +44,7 @@ func handleInput(event):
 				$InterruptTimer.stop()
 				start = true;
 				combo_step += 1;
+		#cancel the combo
 		elif(host.is_on_floor()):
 			if(event.is_action_pressed("left") ||
 			event.is_action_pressed("right") || 
@@ -50,9 +58,11 @@ func handleInput(event):
 
 func execute(delta):
 	attack();
+	#prevent player slipping
 	if(host.is_on_floor() && !mid):
 		host.hspd = 0;
-	if(!start && !mid && $InterruptTimer.is_stopped()):
+	#combo timeout
+	if(!start && !mid && $InterruptTimer.is_stopped() && $RecoilTimer.is_stopped()):
 		if(host.is_on_floor()):
 			exit('move_on_ground');
 		else:
@@ -61,6 +71,7 @@ func execute(delta):
 	pass;
 
 func exit(state):
+	#reset
 	$InterruptTimer.stop();
 	combo_step = 0;
 	first_attack = 'nil';
@@ -70,11 +81,15 @@ func exit(state):
 	current_attack = 'nil';
 	start = false;
 	special = "";
-	#$CooldownTimer.wait_time = .35;
-	#$CooldownTimer.start();
+	$CooldownTimer.wait_time = .35;
+	$CooldownTimer.start();
+	on_cooldown = true;
+	interrupt = 1;
+	distance_traversable = 80;
+	dashing = false;
 	.exit(state);
 	pass;
-
+	
 func attack():
 	if(current_attack != 'nil'):
 		match(combo_step):
@@ -104,4 +119,14 @@ func attack():
 			effect.host = host;
 			effect.attack_state = self;
 			host.add_child(effect);
+	pass;
+
+func _on_CooldownTimer_timeout():
+	on_cooldown = false;
+	pass;
+
+
+func _on_RecoilTimer_timeout():
+	$InterruptTimer.wait_time = interrupt;
+	$InterruptTimer.start();
 	pass;

@@ -5,7 +5,7 @@ func enter():
 	pass
 
 func handleInput(event):
-	if(event.is_action_just_pressed("attack")):
+	if(event.is_action_just_pressed("attack") && !attack.on_cooldown):
 		exit('attack');
 	pass
 

@@ -4,9 +4,12 @@
 
 [node name="XXAttack" instance=ExtResource( 1 )]
 
-wait = 0.1
+wind = 0.2
+attack = 0.1
+recoil = 0.2
+speed = 200
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+[node name="collider" type="CollisionPolygon2D" parent="." index="1"]
 
 build_mode = 0
 polygon = PoolVector2Array( 34.0862, -8.48608, -67.4169, -5.83241, -2.40182, 14.7336 )

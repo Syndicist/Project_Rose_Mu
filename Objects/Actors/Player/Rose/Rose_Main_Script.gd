@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-
-
 ###physics vars###
 var air_time = 0;
 var hspd = 0;
@@ -13,6 +11,7 @@ var Direction = 1;
 var gravity = 1200;
 var velocity = Vector2(0,0);
 var floor_normal = Vector2(0,-1);
+
 ###states###
 #TODO: hurt_state
 onready var states = {
@@ -52,7 +51,8 @@ func _physics_process(delta):
 		vspd = 0;
 		fspd = 0;
 	
-	fspd += gravity * delta;
+	if(!states['attack'].dashing):
+		fspd += gravity * delta;
 	
 	#cap gravity
 	if(fspd > 900):

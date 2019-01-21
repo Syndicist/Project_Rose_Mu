@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Actors/Player/Rose/Attacks/Attack.gd" type="Script" id=1]
 
-[node name="Attack" type="Area2D" index="0"]
+[node name="Attack" type="Area2D"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -12,7 +12,10 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-wait = 0.3
+wind = 0.2
+attack = 0.1
+recoil = 0.2
+speed = 200
 
 [node name="AttackTimer" type="Timer" parent="." index="0"]
 
@@ -21,6 +24,15 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
+[node name="WindupTimer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+
+[connection signal="timeout" from="WindupTimer" to="." method="_on_WindupTimer_timeout"]
 
 
