@@ -1,23 +1,32 @@
 extends KinematicBody2D
 
+
+
 ###physics vars###
 var air_time = 0;
 var hspd = 0;
 var vspd = 0;
 var fspd = 0;
-var gravity = 0;
+var mspd = 350;
+var jspd = 500;
+var Direction = 1;
+var gravity = 1200;
 var velocity = Vector2(0,0);
-
+var floor_normal = Vector2(0,-1);
 ###states###
 #TODO: hurt_state
 onready var states = {
 	'move_on_ground' : $States/Move_On_Ground,
 	'move_in_air' : $States/Move_In_Air,
-	'attack' : $States/Attack,
+	'attack' : $States/Attack
 }
-var state;
+var state = 'move_on_ground';
 ###hitbox detection###
 #var targettableHitboxes = [];
+
+
+###camera control###
+onready var cam = get_node("Camera2D");
 
 func _ready():
 	$Camera2D.current = true;
@@ -25,6 +34,7 @@ func _ready():
 
 func _physics_process(delta):
 	#state machine
+	states[state].handleInput(Input);
 	states[state].execute(delta);
 	
 	#count time in air

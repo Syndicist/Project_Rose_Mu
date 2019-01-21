@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Objects/Actors/Player/Rose/Attacks/Attack.tscn" type="PackedScene" id=1]
+
+[node name="XXAttack" instance=ExtResource( 1 )]
+
+wait = 0.1
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+
+build_mode = 0
+polygon = PoolVector2Array( 34.0862, -8.48608, -67.4169, -5.83241, -2.40182, 14.7336 )
+
+
