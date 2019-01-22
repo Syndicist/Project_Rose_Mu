@@ -5,8 +5,8 @@ var air_time = 0;
 var hspd = 0;
 var vspd = 0;
 var fspd = 0;
-var mspd = 350;
-var jspd = 500;
+var mspd = 250;
+var jspd = 470;
 var Direction = 1;
 var gravity = 1200;
 var velocity = Vector2(0,0);
@@ -32,6 +32,7 @@ func _ready():
 	pass;
 
 func _physics_process(delta):
+	print(state);
 	#state machine
 	states[state].handleInput(Input);
 	states[state].execute(delta);
@@ -40,7 +41,7 @@ func _physics_process(delta):
 	air_time += delta;
 	
 	#move across surfaces
-	velocity.y = vspd + fspd;
+	velocity.y = vspd;
 	velocity.x = hspd;
 	velocity = move_and_slide(velocity, floor_normal);
 	
@@ -52,14 +53,14 @@ func _physics_process(delta):
 		fspd = 0;
 	
 	if(!states['attack'].dashing):
-		fspd += gravity * delta;
+		vspd += gravity * delta;
 	
 	#cap gravity
-	if(fspd > 900):
-		fspd = 900;
+	if(vspd > 450):
+		vspd = 450;
 	
 	if(is_on_ceiling()):
-		fspd = 500;
+		vspd = 0;
 	pass;
 
 """

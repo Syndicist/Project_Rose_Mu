@@ -38,6 +38,7 @@ func _on_AttackTimer_timeout():
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
 	attack_state.mid = false;
+	attack_state.dashing = false;
 	pass;
 
 
@@ -48,4 +49,6 @@ func _on_WindupTimer_timeout():
 	$AttackTimer.start();
 	attack_state.dashing = true;
 	host.hspd = speed * host.Direction;
+	host.vspd = 0;
+	host.fspd = 0;
 	pass;
