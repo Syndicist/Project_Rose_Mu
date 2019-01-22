@@ -1,4 +1,4 @@
-extends "./State.gd"
+extends "./Free_Motion_State.gd"
 
 var combo_step = 0;
 var first_attack = 'nil';
@@ -30,8 +30,12 @@ func handleInput(event):
 	if(!$InterruptTimer.is_stopped() || combo_start):
 		if(event.is_action_pressed("special") && (event.is_action_pressed("left") || event.is_action_pressed("up") || event.is_action_pressed("right"))):
 			special = "Special";
-			if(event.is_action_pressed("left") || event.is_action_pressed("right")):
+			if(event.is_action_pressed("left")):
 				dir = "Horizontal"
+				update_look_direction(-1);
+			elif(event.is_action_pressed("right")):
+				dir = "Horizontal";
+				update_look_direction(1);
 			elif(event.is_action_pressed("up")):
 				dir = "Vertical";
 			else:
@@ -41,7 +45,6 @@ func handleInput(event):
 			dir = "";
 		#if an attack is triggered, commit to it
 		if(event.is_action_pressed("attack")):
-			print("@@@");
 			if(event.is_action_just_pressed("slash")):
 				current_attack = 'X';
 			elif(event.is_action_just_pressed("bash") && bash_enabled):
