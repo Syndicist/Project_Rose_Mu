@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/Attack.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/XAttack_DontMove.gd" type="Script" id=2]
+
+[node name="XAttack" index="0" instance=ExtResource( 1 )]
+
+script = ExtResource( 2 )
+recoil = 0.1
+
+[node name="collider" type="CollisionPolygon2D" parent="." index="1"]
+
+build_mode = 0
+polygon = PoolVector2Array( -13.1155, 8.82431, 1.76697, 20.4715, 19.5613, 19.5009, 22.7966, -1.20519, 8.23763, -25.7937, 40.5909, -6.38171, 43.8262, 16.5891, 36.7085, 34.7069, 18.5907, 39.5599, -4.70367, 29.8539 )
+
+

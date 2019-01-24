@@ -65,6 +65,8 @@ special=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resourc
 
 2d_physics/layer_1="Floors And Walls"
 2d_physics/layer_2="Player"
+2d_physics/layer_3="Player Attacks"
+2d_physics/layer_4="Enemies"
 
 [rendering]
 

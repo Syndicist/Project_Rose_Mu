@@ -2,7 +2,6 @@ extends "./Free_Motion_State.gd"
 
 func enter():
 	host.state = 'move_on_ground';
-	handleInput(Input);
 	pass
 
 func handleInput(event):
@@ -24,5 +23,6 @@ func execute(delta):
 		exit('move_in_air');
 
 func exit(state):
+	host.hspd = 0;
 	.exit(state);
 	pass

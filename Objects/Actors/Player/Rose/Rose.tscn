@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 20.9771 )
 
-[node name="Rose" type="KinematicBody2D"]
+[node name="Rose" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 2
@@ -84,12 +84,21 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
+[node name="ContinueComboTimer" type="Timer" parent="States/Attack" index="3"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [node name="RayCast2D" type="RayCast2D" parent="." index="3"]
 
 enabled = false
 exclude_parent = true
 cast_to = Vector2( 50, 0 )
 collision_mask = 1
+
+[connection signal="timeout" from="States/Attack/InterruptTimer" to="States/Attack" method="_on_InterruptTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/CooldownTimer" to="States/Attack" method="_on_CooldownTimer_timeout"]
 

@@ -32,7 +32,6 @@ func _ready():
 	pass;
 
 func _physics_process(delta):
-	print(state);
 	#state machine
 	states[state].handleInput(Input);
 	states[state].execute(delta);
@@ -51,6 +50,7 @@ func _physics_process(delta):
 		velocity.y = 0
 		vspd = 0;
 		fspd = 0;
+		states['attack'].air_counter = 1;
 	
 	if(!states['attack'].dashing):
 		vspd += gravity * delta;

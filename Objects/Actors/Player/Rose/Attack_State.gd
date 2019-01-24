@@ -1,24 +1,32 @@
 extends "./Free_Motion_State.gd"
 
+### temp inits ###
 var combo_step = 0;
 var first_attack = 'nil';
 var second_attack = 'nil';
 var third_attack = 'nil';
 var combo_attack = 'nil';
 var current_attack = 'nil';
-var pierce_enabled = false;
-var bash_enabled = false;
 #starting the attack
 var start = false;
 #middle of the attack
 var mid = false;
 var special = "";
 var dir = "";
+var place = "";
 var on_cooldown = false;
-var interrupt = 1;
-var distance_traversable = 80;
 var dashing = false;
 var combo_start = false;
+
+### modifiable inits ###
+var cont = .5;
+var interrupt = .5;
+var distance_traversable = 80;
+var air_counter = 1;
+
+### item_vars ###
+var pierce_enabled = false;
+var bash_enabled = false;
 
 func enter():
 	host.state = 'attack';
@@ -27,22 +35,32 @@ func enter():
 	pass;
 
 func handleInput(event):
-	if(!$InterruptTimer.is_stopped() || combo_start):
-		if(event.is_action_pressed("special") && (event.is_action_pressed("left") || event.is_action_pressed("up") || event.is_action_pressed("right"))):
+	if(air_counter <= 0 && !$InterruptTimer.is_stopped()):
+		if(host.is_on_floor()):
+			exit('move_on_ground');
+		else:
+			exit('move_in_air');
+		return;
+	if(!$InterruptTimer.is_stopped() || combo_start || !$ContinueComboTimer.is_stopped()):
+		if(event.is_action_pressed("left")):
+			dir = "Horizontal"
+			update_look_direction(-1);
+		elif(event.is_action_pressed("right")):
+			dir = "Horizontal";
+			update_look_direction(1);
+		elif(event.is_action_pressed("up")):
+			dir = "Up";
+		elif(event.is_action_pressed("down")):
+			dir = "Down";
+		if(event.is_action_pressed("special")):
 			special = "Special";
-			if(event.is_action_pressed("left")):
-				dir = "Horizontal"
-				update_look_direction(-1);
-			elif(event.is_action_pressed("right")):
-				dir = "Horizontal";
-				update_look_direction(1);
-			elif(event.is_action_pressed("up")):
-				dir = "Vertical";
-			else:
-				special = "";
 		else:
 			special = "";
-			dir = "";
+			dir = "Horizontal";
+		if(host.is_on_floor()):
+			place = "Ground";
+		else:
+			place = "Air";
 		#if an attack is triggered, commit to it
 		if(event.is_action_pressed("attack")):
 			if(event.is_action_just_pressed("slash")):
@@ -58,15 +76,23 @@ func handleInput(event):
 				start = true;
 				combo_step += 1;
 		#cancel the combo
-		elif(host.is_on_floor() && !event.is_action_pressed("special")):
-			if(event.is_action_pressed("left") ||
-			event.is_action_pressed("right") || 
-			event.is_action_pressed("jump") || 
-			event.is_action_pressed("down") ):
+		elif(!$ContinueComboTimer.is_stopped() && !event.is_action_pressed("special")):
+			if(host.is_on_floor() && (
+			event.is_action_pressed("jump") ||
+			event.is_action_pressed("left") ||
+			event.is_action_pressed("right"))):
 				exit('move_on_ground');
-		elif(!event.is_action_pressed("special")):
-			if(event.is_action_pressed("left") || event.is_action_pressed("right")):
+			elif(
+			event.is_action_pressed("left") ||
+			event.is_action_pressed("right")):
 				exit('move_in_air');
+	#combo timeout
+	if(!start && !mid && $InterruptTimer.is_stopped() && ($RecoilTimer.is_stopped() || air_counter <= 0) && !combo_start):
+		if(host.is_on_floor()):
+			exit('move_on_ground');
+		else:
+			exit('move_in_air');
+		return;
 	pass;
 
 func execute(delta):
@@ -74,13 +100,6 @@ func execute(delta):
 	#prevent player slipping
 	if(host.is_on_floor() && !mid):
 		host.hspd = 0;
-	#combo timeout
-	if(!start && !mid && $InterruptTimer.is_stopped() && $RecoilTimer.is_stopped() && !combo_start):
-		if(host.is_on_floor()):
-			exit('move_on_ground');
-		else:
-			exit('move_in_air');
-		return;
 	pass;
 
 func exit(state):
@@ -92,17 +111,19 @@ func exit(state):
 	third_attack = 'nil';
 	combo_attack = 'nil';
 	current_attack = 'nil';
+	pierce_enabled = false;
+	bash_enabled = false;
 	start = false;
+	mid = false;
 	special = "";
-	$CooldownTimer.wait_time = .35;
-	$CooldownTimer.start();
-	on_cooldown = true;
-	interrupt = 1;
-	distance_traversable = 80;
+	dir = "";
+	place = "";
+	on_cooldown = false;
 	dashing = false;
+	combo_start = false;
 	.exit(state);
 	pass;
-	
+
 func attack():
 	if(current_attack != 'nil'):
 		match(combo_step):
@@ -121,13 +142,15 @@ func attack():
 				else:
 					exit('move_in_air');
 				return;
-		if ((combo_step in [1,2,3]) && start):
-			print(special + combo_attack);
-			start = false;
-			mid = true;
-			var path = "res://Objects/Actors/Player/Rose/Attacks/" + special + dir + combo_attack + "Attack.tscn"
+		if ((combo_step in [1,2,3]) && current_attack != 'nil'):
+			if(place == "Air"):
+				air_counter -= 1;
+				if(dir == "Up"): #TODO: enable once double jump is unlocked
+					special = "";
+			var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + special + "Attacks/" + dir + "/" + place + "/" + combo_attack + "Attack.tscn"
 			special = "";
 			dir = "";
+			place = "";
 			current_attack = 'nil';
 			var effect = load(path).instance();
 			effect.host = host;
@@ -143,4 +166,10 @@ func _on_CooldownTimer_timeout():
 func _on_RecoilTimer_timeout():
 	$InterruptTimer.wait_time = interrupt;
 	$InterruptTimer.start();
+	pass;
+
+
+func _on_InterruptTimer_timeout():
+	$ContinueComboTimer.wait_time = cont;
+	$ContinueComboTimer.start();
 	pass;
