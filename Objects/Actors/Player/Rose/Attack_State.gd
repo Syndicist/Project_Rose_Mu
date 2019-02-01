@@ -12,11 +12,13 @@ var start = false;
 #middle of the attack
 var mid = false;
 var special = "";
-var dir = "";
-var place = "";
+var dir = "Horizontal";
+var place = "Ground";
 var on_cooldown = false;
 var dashing = false;
 var combo_start = false;
+var hit = false;
+var floating = false;
 
 ### modifiable inits ###
 var cont = .5;
@@ -52,11 +54,12 @@ func handleInput(event):
 			dir = "Up";
 		elif(event.is_action_pressed("down")):
 			dir = "Down";
+		else:
+			dir = "Horizontal";
 		if(event.is_action_pressed("special")):
 			special = "Special";
 		else:
 			special = "";
-			dir = "Horizontal";
 		if(host.is_on_floor()):
 			place = "Ground";
 		else:
@@ -76,7 +79,7 @@ func handleInput(event):
 				start = true;
 				combo_step += 1;
 		#cancel the combo
-		elif(!$ContinueComboTimer.is_stopped() && !event.is_action_pressed("special")):
+		elif((!$ContinueComboTimer.is_stopped() || combo_start) && !event.is_action_pressed("special")):
 			if(host.is_on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
@@ -121,6 +124,8 @@ func exit(state):
 	on_cooldown = false;
 	dashing = false;
 	combo_start = false;
+	hit = false;
+	floating = false;
 	.exit(state);
 	pass;
 
@@ -172,4 +177,9 @@ func _on_RecoilTimer_timeout():
 func _on_InterruptTimer_timeout():
 	$ContinueComboTimer.wait_time = cont;
 	$ContinueComboTimer.start();
+	pass;
+
+
+func _on_FloatTimer_timeout():
+	floating = false;
 	pass;

@@ -7,14 +7,16 @@ export(float) var wind = .2;
 export(float) var attack = .1;
 export(float) var recoil = .1;
 export(float) var speed = 200;
-onready var pos = host.position;
+var pos;
 var displacement = Vector2(0,0);
 
 func _ready():
+	connect("area_entered", self, "on_area_entered");
 	$WindupTimer.wait_time = wind;
 	$WindupTimer.start();
 	col.disabled = true;
 	visible = false;
+	pos = host.position
 	pass;
 
 func displacex():
@@ -52,6 +54,12 @@ func displacey():
 ### All attacks need versions of these ###
 func _on_AttackTimer_timeout():
 	queue_free();
+	if(attack_state.hit && !host.is_on_floor()):
+		host.vspd = 0;
+		host.velocity.y = 0;
+		attack_state.floating = true;
+		attack_state.get_node("FloatTimer").wait_time = 1;
+		attack_state.get_node("FloatTimer").start();
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
 	attack_state.mid = false;
@@ -65,4 +73,11 @@ func _on_WindupTimer_timeout():
 	$AttackTimer.start();
 	attack_state.mid = true;
 	attack_state.start = false;
+	pass;
+
+func on_area_entered(area):
+	attack_state.hit = true;
+	attack_state.air_counter = 1;
+	if(!host.is_on_floor()):
+		host.hspd = 0;
 	pass;

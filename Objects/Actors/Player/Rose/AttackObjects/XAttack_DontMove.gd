@@ -5,6 +5,10 @@ extends "./Attack.gd"
 
 func _on_AttackTimer_timeout():
 	queue_free();
+	if(attack_state.hit && !host.is_on_floor()):
+		attack_state.floating = true;
+		attack_state.get_node("FloatTimer").wait_time = 1;
+		attack_state.get_node("FloatTimer").start();
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
 	attack_state.mid = false;

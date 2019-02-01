@@ -52,8 +52,10 @@ func _physics_process(delta):
 		fspd = 0;
 		states['attack'].air_counter = 1;
 	
-	if(!states['attack'].dashing):
+	if(!states['attack'].dashing && !states['attack'].floating):
 		vspd += gravity * delta;
+	if(states['attack'].floating):
+		vspd = 0;
 	
 	#cap gravity
 	if(vspd > 450):

@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/Attack.gd" type="Script" id=1]
 
-
 [node name="Attack" type="Area2D"]
 
 input_pickable = true
