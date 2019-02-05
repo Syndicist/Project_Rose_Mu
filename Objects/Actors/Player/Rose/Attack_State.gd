@@ -43,7 +43,7 @@ func handleInput(event):
 		else:
 			exit('move_in_air');
 		return;
-	if(!$InterruptTimer.is_stopped() || combo_start || !$ContinueComboTimer.is_stopped()):
+	if(!$InterruptTimer.is_stopped() || combo_start || ($InterruptTimer.is_stopped() && !$ContinueComboTimer.is_stopped())):
 		if(event.is_action_pressed("left")):
 			dir = "Horizontal"
 			update_look_direction(-1);
@@ -67,6 +67,9 @@ func handleInput(event):
 		#if an attack is triggered, commit to it
 		if(event.is_action_pressed("attack")):
 			if(event.is_action_just_pressed("slash")):
+				print($InterruptTimer.is_stopped());
+				print($ContinueComboTimer.is_stopped());
+				print(combo_start);
 				current_attack = 'X';
 			elif(event.is_action_just_pressed("bash") && bash_enabled):
 				current_attack = 'B';
@@ -75,7 +78,8 @@ func handleInput(event):
 			
 			if(current_attack != 'nil'):
 				combo_start = false;
-				$InterruptTimer.stop()
+				$InterruptTimer.stop();
+				$ContinueComboTimer.stop();
 				start = true;
 				combo_step += 1;
 		#cancel the combo

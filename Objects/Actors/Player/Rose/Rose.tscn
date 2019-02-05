@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 20.9771 )
 
-[node name="Rose" type="KinematicBody2D"]
+[node name="Rose" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 2
@@ -60,7 +60,6 @@ script = ExtResource( 3 )
 
 [node name="Attack" type="Node2D" parent="States" index="2"]
 
-editor/display_folded = true
 script = ExtResource( 4 )
 _sections_unfolded = [ "Pause" ]
 
