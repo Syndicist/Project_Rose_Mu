@@ -44,5 +44,5 @@ func _on_Area2D_area_entered(area):
 		Direction = 1;
 	#hspd = area.speed * Direction; 
 	gravity = 600;
-	vspd = -area.speed/3;
+	vspd = -area.speedx/3;
 	pass;

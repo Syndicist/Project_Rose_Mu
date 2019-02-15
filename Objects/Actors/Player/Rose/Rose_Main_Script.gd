@@ -4,7 +4,6 @@ extends KinematicBody2D
 var air_time = 0;
 var hspd = 0;
 var vspd = 0;
-var fspd = 0;
 var mspd = 250;
 var jspd = 470;
 var Direction = 1;
@@ -49,13 +48,10 @@ func _physics_process(delta):
 		air_time = 0;
 		velocity.y = 0
 		vspd = 0;
-		fspd = 0;
 		states['attack'].air_counter = 1;
 	
 	if(!states['attack'].dashing && !states['attack'].floating):
 		vspd += gravity * delta;
-	if(states['attack'].floating):
-		vspd = 0;
 	
 	#cap gravity
 	if(vspd > 450):

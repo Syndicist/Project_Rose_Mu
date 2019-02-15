@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 20.9771 )
 
-[node name="Rose" type="KinematicBody2D" index="0"]
+[node name="Rose" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 2
@@ -84,7 +84,7 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="ContinueComboTimer" type="Timer" parent="States/Attack" index="3"]
+[node name="EndComboTimer" type="Timer" parent="States/Attack" index="3"]
 
 process_mode = 1
 wait_time = 1.0
@@ -110,6 +110,8 @@ collision_mask = 1
 [connection signal="timeout" from="States/Attack/CooldownTimer" to="States/Attack" method="_on_CooldownTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/RecoilTimer" to="States/Attack" method="_on_RecoilTimer_timeout"]
+
+[connection signal="timeout" from="States/Attack/EndComboTimer" to="States/Attack" method="_on_EndComboTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/FloatTimer" to="States/Attack" method="_on_FloatTimer_timeout"]
 

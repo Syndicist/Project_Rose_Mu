@@ -3,12 +3,15 @@ extends Node2D
 var host;
 var attack_state;
 onready var col = get_node("collider");
-export(float) var wind = .2;
+export(float) var wind = .1;
 export(float) var attack = .1;
 export(float) var recoil = .1;
-export(float) var speed = 200;
+export(float) var speedx = 200;
+export(float) var speedy = 200;
+export(float) var fl = .6;
 var pos;
 var displacement = Vector2(0,0);
+var attack_traversal = Vector2(0,0);
 
 func _ready():
 	connect("area_entered", self, "on_area_entered");
@@ -17,6 +20,8 @@ func _ready():
 	col.disabled = true;
 	visible = false;
 	pos = host.position
+	attack_traversal.x = attack_state.distance_traversable;
+	attack_traversal.y = attack_state.distance_traversable;
 	pass;
 
 func displacex():
@@ -26,12 +31,12 @@ func displacex():
 	elif(host.position.x < pos.x):
 		displacement.x += pos.x - host.position.x;
 		pos.x = host.position.x;
-	if(abs(displacement.x) > attack_state.distance_traversable):
+	if((abs(displacement.x) > attack_state.distance_traversable || abs(displacement.x) > attack_traversal.x) && attack_state.dashing):
 		if(host.is_on_floor()):
 			host.hspd = 0;
-		elif(speed > 0):
+		elif(speedx > 0):
 			host.hspd -= 25*host.Direction;
-			speed -= 25
+			speedx -= 25
 		attack_state.dashing = false;
 	pass;
 
@@ -42,12 +47,12 @@ func displacey():
 	elif(host.position.y < pos.y):
 		displacement.y += pos.y - host.position.y;
 		pos.y = host.position.y;
-	if(abs(displacement.y) > attack_state.distance_traversable):
+	if((abs(displacement.y) > attack_state.distance_traversable || abs(displacement.y) > attack_traversal.y) && attack_state.dashing):
 		if(host.is_on_floor()):
 			host.vspd = 0;
-		elif(speed > 0):
+		elif(speedy > 0):
 			host.vspd += 25;
-			speed -= 25
+			speedy -= 25
 		attack_state.dashing = false;
 	pass;
 
@@ -58,11 +63,11 @@ func _on_AttackTimer_timeout():
 		host.vspd = 0;
 		host.velocity.y = 0;
 		attack_state.floating = true;
-		attack_state.get_node("FloatTimer").wait_time = 1;
+		attack_state.get_node("FloatTimer").wait_time = fl;
 		attack_state.get_node("FloatTimer").start();
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
-	attack_state.mid = false;
+	attack_state.attack_mid = false;
 	pass;
 
 
@@ -71,13 +76,11 @@ func _on_WindupTimer_timeout():
 	visible = true;
 	$AttackTimer.wait_time = attack;
 	$AttackTimer.start();
-	attack_state.mid = true;
-	attack_state.start = false;
+	attack_state.attack_mid = true;
+	attack_state.attack_start = false;
 	pass;
 
 func on_area_entered(area):
 	attack_state.hit = true;
 	attack_state.air_counter = 1;
-	if(!host.is_on_floor()):
-		host.hspd = 0;
 	pass;

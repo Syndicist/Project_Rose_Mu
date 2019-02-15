@@ -7,7 +7,9 @@
 
 script = ExtResource( 2 )
 recoil = 0.1
-speed = 1200.0
+speedx = 200.0
+speedy = 800.0
+fl = 0.6
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
 
