@@ -32,7 +32,7 @@ func displacex():
 		displacement.x += pos.x - host.position.x;
 		pos.x = host.position.x;
 	if((abs(displacement.x) > attack_state.distance_traversable || abs(displacement.x) > attack_traversal.x) && attack_state.dashing):
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			host.hspd = 0;
 		elif(speedx > 0):
 			host.hspd -= 25*host.Direction;
@@ -48,7 +48,7 @@ func displacey():
 		displacement.y += pos.y - host.position.y;
 		pos.y = host.position.y;
 	if((abs(displacement.y) > attack_state.distance_traversable || abs(displacement.y) > attack_traversal.y) && attack_state.dashing):
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			host.vspd = 0;
 		elif(speedy > 0):
 			host.vspd += 25;
@@ -59,7 +59,7 @@ func displacey():
 ### All attacks need versions of these ###
 func _on_AttackTimer_timeout():
 	queue_free();
-	if(attack_state.hit && !host.is_on_floor()):
+	if(attack_state.hit && !host.on_floor()):
 		host.vspd = 0;
 		host.velocity.y = 0;
 		attack_state.floating = true;

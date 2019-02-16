@@ -4,7 +4,7 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Actors/Enemies/Dummy/Dummy.tscn" type="PackedScene" id=3]
 
-[node name="Test" type="Node2D"]
+[node name="Test" type="Node2D" index="0"]
 
 [node name="TileMap" type="TileMap" parent="." index="0"]
 
