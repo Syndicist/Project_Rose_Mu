@@ -4,10 +4,11 @@ extends KinematicBody2D
 var air_time = 0;
 var hspd = 0;
 var vspd = 0;
-var mspd = 250;
+var mspd = 200;
 var jspd = 470;
 var Direction = 1;
 var gravity = 1200;
+var g_max = 300;
 var velocity = Vector2(0,0);
 var floor_normal = Vector2(0,-1);
 
@@ -54,12 +55,15 @@ func _physics_process(delta):
 		vspd += gravity * delta;
 	
 	#cap gravity
-	if(vspd > 450):
-		vspd = 450;
+	if(vspd > g_max):
+		vspd = g_max;
 	
 	if(is_on_ceiling()):
 		vspd = 0;
 	pass;
+
+func on_floor():
+	return $floorcast_left.is_colliding() || $floorcast_mid.is_colliding() || $floorcast_right.is_colliding();
 
 """
 func _on_DetectHitboxArea_area_entered(area):
@@ -90,12 +94,14 @@ func nextRay(origin,dest,col_layer,spc):
 	if(result.empty()):
 		itemTrace.clear();
 		return true;
+	
 	elif(result.collider.get_collision_layer_bit(col_layer)):
 		if(result.collider != dest):
 			return nextRay(result.collider,dest,col_layer,spc);
 		else:
 			itemTrace.clear();
 			return true;
+	
 	else:
 		itemTrace.clear();
 		return false;

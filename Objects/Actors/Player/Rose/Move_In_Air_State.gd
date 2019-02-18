@@ -19,7 +19,7 @@ func execute(delta):
 		host.hspd = host.mspd * host.Direction;
 	else:
 		host.hspd = 0;
-	if(host.is_on_floor()):
+	if(host.on_floor()):
 		exit('move_on_ground');
 
 func exit(state):

@@ -29,7 +29,7 @@ var end = .5;
 var interrupt = .5;
 var distance_traversable = 80;
 var air_counter = 1;
-var cool = .5;
+var cool = .25;
 
 ### item_vars ###
 var pierce_enabled = false;
@@ -38,7 +38,7 @@ var bash_enabled = false;
 func enter():
 	host.state = 'attack';
 	if(on_cooldown):
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			exit('move_on_ground');
 		else:
 			exit('move_in_air');
@@ -49,7 +49,7 @@ func enter():
 
 func handleInput(event):
 	if(air_counter <= 0 && track_input):
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			exit('move_on_ground');
 		else:
 			exit('move_in_air');
@@ -71,7 +71,7 @@ func handleInput(event):
 			special = "Special";
 		else:
 			special = "";
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			place = "Ground";
 		else:
 			place = "Air";
@@ -90,7 +90,7 @@ func handleInput(event):
 				combo_step += 1;
 		#cancel the combo
 		elif(track_input && !event.is_action_pressed("special")):
-			if(host.is_on_floor() && (
+			if(host.on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
 			event.is_action_pressed("right"))):
@@ -101,7 +101,7 @@ func handleInput(event):
 				exit('move_in_air');
 	#combo timeout
 	if(!attack_start && !attack_mid && combo_end):
-		if(host.is_on_floor()):
+		if(host.on_floor()):
 			exit('move_on_ground');
 		else:
 			exit('move_in_air');
@@ -111,7 +111,7 @@ func handleInput(event):
 func execute(delta):
 	attack();
 	#prevent player slipping
-	if(host.is_on_floor() && !attack_mid):
+	if(host.on_floor() && !attack_mid):
 		host.hspd = 0;
 	pass;
 
@@ -150,7 +150,7 @@ func attack():
 				third_attack = second_attack + current_attack;
 				combo_attack = third_attack;
 			4:
-				if(host.is_on_floor()):
+				if(host.on_floor()):
 					exit('move_on_ground');
 				else:
 					exit('move_in_air');
@@ -190,7 +190,6 @@ func _on_CooldownTimer_timeout():
 func _on_RecoilTimer_timeout():
 	$InterruptTimer.wait_time = interrupt;
 	$InterruptTimer.start();
-	print("@@@")
 	track_input = true;
 	pass;
 

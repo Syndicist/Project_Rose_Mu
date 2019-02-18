@@ -6,7 +6,7 @@ var vspd = 0;
 var gravity = 1200;
 var friction = 10;
 var velocity = Vector2(0,0);
-var floor_normal = Vector2(-1,0);
+var floor_normal = Vector2(0,-1);
 
 func _physics_process(delta):
 	#move across surfaces
@@ -18,6 +18,7 @@ func _physics_process(delta):
 	if(is_on_floor()):
 		velocity.y = 0
 		vspd = 0;
+		friction = 10;
 	
 	vspd += gravity * delta;
 	
@@ -44,5 +45,10 @@ func _on_Area2D_area_entered(area):
 		Direction = 1;
 	#hspd = area.speed * Direction; 
 	gravity = 600;
-	vspd = -area.speedx/3;
+	vspd = -area.knockback.y;
+	var dir = 1;
+	if(area.global_position.x > global_position.x):
+		dir = -1;
+	hspd = area.knockback.x * dir;
+	friction = 0;
 	pass;

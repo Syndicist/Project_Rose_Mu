@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 20.9771 )
+extents = Vector2( 10, 24 )
 
 [node name="Rose" type="KinematicBody2D"]
 
@@ -104,6 +104,33 @@ enabled = false
 exclude_parent = true
 cast_to = Vector2( 50, 0 )
 collision_mask = 1
+
+[node name="floorcast_mid" type="RayCast2D" parent="." index="4"]
+
+position = Vector2( 0, 24 )
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 0, 1 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="floorcast_left" type="RayCast2D" parent="." index="5"]
+
+position = Vector2( -10, 24 )
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 0, 1 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="floorcast_right" type="RayCast2D" parent="." index="6"]
+
+position = Vector2( 10, 24 )
+enabled = false
+exclude_parent = true
+cast_to = Vector2( 0, 1 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
 
 [connection signal="timeout" from="States/Attack/InterruptTimer" to="States/Attack" method="_on_InterruptTimer_timeout"]
 

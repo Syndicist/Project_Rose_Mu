@@ -9,6 +9,7 @@ export(float) var recoil = .1;
 export(float) var speedx = 200;
 export(float) var speedy = 200;
 export(float) var fl = .6;
+export(Vector2) var knockback = Vector2(100,100);
 var pos;
 var displacement = Vector2(0,0);
 var attack_traversal = Vector2(0,0);

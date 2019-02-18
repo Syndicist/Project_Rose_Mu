@@ -3,8 +3,12 @@ extends "./Attack.gd"
 #For horizontal X attacks that trigger a set displacement
 
 func _ready():
+	initialize();
+	pass;
+	
+func initialize():
 	speedx = host.mspd;
-	pass;"res://Objects/Actors/Player/Rose/AttackObjects/Attacks/Horizontal/Ground/Horizontal_Ground_XAttack.gd"
+	pass;
 
 func _physics_process(delta):
 	displacex();

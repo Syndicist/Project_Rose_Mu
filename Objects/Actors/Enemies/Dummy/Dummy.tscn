@@ -19,6 +19,7 @@ _sections_unfolded = [ "Collision", "collision" ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
 
 shape = SubResource( 1 )
+_sections_unfolded = [ "Visibility" ]
 
 [node name="Area2D" type="Area2D" parent="." index="1"]
 

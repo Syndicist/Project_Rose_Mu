@@ -8,9 +8,10 @@
 script = ExtResource( 2 )
 wind = 0.1
 recoil = 0.1
-speedx = 200
+speedx = 200.0
 speedy = 200
 fl = 0.3
+knockback = Vector2( 100, 100 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
 
