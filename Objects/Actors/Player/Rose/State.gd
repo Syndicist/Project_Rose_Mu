@@ -2,8 +2,12 @@ extends Node2D
 
 onready var host = get_parent().get_parent();
 onready var attack = get_parent().get_node("Attack");
+onready var animator = get_parent().get_parent().get_node("animator");
 
 func enter():
+	pass;
+
+func handleAnimation():
 	pass;
 
 func handleInput(event):

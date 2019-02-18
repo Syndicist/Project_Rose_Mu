@@ -17,6 +17,7 @@ var floating = false;
 var attack_start = false;
 #middle of the attack
 var attack_mid = false;
+var animate = false;
 
 ### attack codes ###
 var special = "";
@@ -45,6 +46,9 @@ func enter():
 		return;
 	track_input = true;
 	handleInput(Input);
+	pass;
+
+func handleAnimation():
 	pass;
 
 func handleInput(event):
@@ -156,7 +160,8 @@ func attack():
 					exit('move_in_air');
 				return;
 		if ((combo_step in [1,2,3]) && current_attack != 'nil'):
-			print(special+dir+place+combo_attack);
+			host.new_anim = special+dir+place+combo_attack;
+			animate = true;
 			if(place == "Air"):
 				air_counter -= 1;
 				if(dir == "Up"): #TODO: enable once double jump is unlocked

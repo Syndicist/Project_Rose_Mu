@@ -27,12 +27,28 @@ var state = 'move_on_ground';
 ###camera control###
 onready var cam = get_node("Camera2D");
 
+###animation vars###
+var anim = "";
+var new_anim = "idle";
+
 func _ready():
 	$Camera2D.current = true;
 	pass;
 
+func _process(delta):
+	
+	if(anim != new_anim):
+		animate();
+	pass;
+
+func animate():
+	anim = new_anim;
+	$animator.play(anim);
+	pass;
+
 func _physics_process(delta):
 	#state machine
+	states[state].handleAnimation();
 	states[state].handleInput(Input);
 	states[state].execute(delta);
 	

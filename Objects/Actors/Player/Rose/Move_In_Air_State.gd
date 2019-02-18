@@ -4,12 +4,19 @@ func enter():
 	host.state = 'move_in_air';
 	pass
 
+func handleAnimation():
+	if(host.vspd < 0):
+		host.new_anim = "jump";
+	elif(host.vspd > 0):
+		host.new_anim = "fall";
+	pass;
+
 func handleInput(event):
 	if(event.is_action_just_pressed("attack") && !attack.on_cooldown):
 		exit('attack');
 	if(event.is_action_just_released("jump")):
-			if(host.vspd < -1*host.jspd/3):
-				host.vspd = -1*host.jspd/3;
+		if(host.vspd < -1*host.jspd/3):
+			host.vspd = -1*host.jspd/3;
 	pass
 
 func execute(delta):
