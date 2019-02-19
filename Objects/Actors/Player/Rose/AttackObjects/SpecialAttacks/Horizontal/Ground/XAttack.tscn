@@ -8,7 +8,7 @@
 rotation = 1.5708
 script = ExtResource( 2 )
 _sections_unfolded = [ "Collision", "Transform" ]
-wind = 0.1
+wind = 0.3
 recoil = 0.1
 speedx = 600.0
 speedy = 200

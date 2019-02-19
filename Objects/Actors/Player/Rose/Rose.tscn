@@ -666,12 +666,12 @@ tracks/2/keys = {
 "values": [ 5, 5, 5, 5, 5, 5 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=16]
 
 resource_name = "SpecialHorizontalGroundX"
-length = 1.0
+length = 0.7
 loop = false
-step = 0.07
+step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -703,13 +703,25 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56, 0.63, 0.7, 0.77, 0.84, 0.91 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.38, 0.4, 0.42, 0.44, 0.46, 0.52, 0.58, 0.66 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.28, 0.35, 0.38, 0.4, 0.42 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( -45, 0 ), Vector2( -45, 0 ), Vector2( -35, 0 ), Vector2( -25, 0 ), Vector2( 0, 0 ) ]
+}
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 
 length = 0.3
 loop = false
@@ -751,7 +763,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=18]
 
 length = 0.3
 loop = false
@@ -793,49 +805,6 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=18]
-
-resource_name = "UpAirXXX"
-length = 0.3
-loop = false
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ ExtResource( 10 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 6 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Sprite:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
-}
-
 [sub_resource type="Animation" id=19]
 
 length = 0.3
@@ -851,7 +820,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 12 ) ]
+"values": [ ExtResource( 10 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -893,7 +862,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 13 ) ]
+"values": [ ExtResource( 12 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -922,7 +891,48 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=21]
 
-resource_name = "UpGroundXXX"
+length = 0.3
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 13 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=22]
+
 length = 0.3
 loop = false
 step = 0.05
@@ -963,7 +973,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=23]
 
 length = 0.3
 loop = true
@@ -1005,7 +1015,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=24]
 
 length = 1.0
 loop = true
@@ -1047,7 +1057,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=25]
 
 length = 0.3
 loop = true
@@ -1089,7 +1099,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=26]
 
 length = 0.4
 loop = true
@@ -1131,7 +1141,7 @@ tracks/2/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=27]
 
 length = 1.05
 loop = true
@@ -1173,12 +1183,12 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=28]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 24 )
+extents = Vector2( 10, 19 )
 
-[node name="Rose" type="KinematicBody2D" index="0"]
+[node name="Rose" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 2
@@ -1209,30 +1219,32 @@ anims/HorizontalGroundXXX = SubResource( 12 )
 anims/SpecialDownGroundX = SubResource( 13 )
 anims/SpecialDownGroundXX = SubResource( 14 )
 anims/SpecialDownGroundXXX = SubResource( 15 )
-anims/SpecialHorizontalGroundX = SubResource( 28 )
-anims/UpAirX = SubResource( 16 )
-anims/UpAirXX = SubResource( 17 )
-anims/UpAirXXX = SubResource( 18 )
-anims/UpGroundX = SubResource( 19 )
-anims/UpGroundXX = SubResource( 20 )
-anims/UpGroundXXX = SubResource( 21 )
-anims/fall = SubResource( 22 )
-anims/idle = SubResource( 23 )
-anims/jump = SubResource( 24 )
-anims/jump-to-fall = SubResource( 25 )
-anims/run = SubResource( 26 )
+anims/SpecialHorizontalGroundX = SubResource( 16 )
+anims/UpAirX = SubResource( 17 )
+anims/UpAirXX = SubResource( 18 )
+anims/UpAirXXX = SubResource( 19 )
+anims/UpGroundX = SubResource( 20 )
+anims/UpGroundXX = SubResource( 21 )
+anims/UpGroundXXX = SubResource( 22 )
+anims/fall = SubResource( 23 )
+anims/idle = SubResource( 24 )
+anims/jump = SubResource( 25 )
+anims/jump-to-fall = SubResource( 26 )
+anims/run = SubResource( 27 )
 blend_times = [  ]
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 9 )
 hframes = 14
-frame = 13
-_sections_unfolded = [ "Animation", "Region" ]
+frame = 10
+_sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
 
-shape = SubResource( 27 )
+visible = false
+shape = SubResource( 28 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
@@ -1271,6 +1283,7 @@ script = ExtResource( 20 )
 
 [node name="Attack" type="Node2D" parent="States" index="2"]
 
+editor/display_folded = true
 script = ExtResource( 21 )
 _sections_unfolded = [ "Pause" ]
 
@@ -1318,7 +1331,7 @@ collision_mask = 1
 
 [node name="floorcast_mid" type="RayCast2D" parent="." index="6"]
 
-position = Vector2( 0, 24 )
+position = Vector2( 0, 19 )
 enabled = true
 exclude_parent = true
 cast_to = Vector2( 0, 1 )
@@ -1327,7 +1340,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="floorcast_left" type="RayCast2D" parent="." index="7"]
 
-position = Vector2( -10, 24 )
+position = Vector2( -10, 19 )
 enabled = true
 exclude_parent = true
 cast_to = Vector2( 0, 1 )
@@ -1336,7 +1349,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="floorcast_right" type="RayCast2D" parent="." index="8"]
 
-position = Vector2( 10, 24 )
+position = Vector2( 10, 19 )
 enabled = false
 exclude_parent = true
 cast_to = Vector2( 0, 1 )
