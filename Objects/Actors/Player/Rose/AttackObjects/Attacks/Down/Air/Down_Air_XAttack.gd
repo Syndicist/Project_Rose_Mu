@@ -28,6 +28,6 @@ func _on_WindupTimer_timeout():
 
 func on_area_entered(area):
 	.on_area_entered(area);
-	host.hspd += speedx * host.Direction;
+	host.hspd = speedx * host.Direction;
 	host.vspd = -speedy;
 	pass;
