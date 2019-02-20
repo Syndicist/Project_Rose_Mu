@@ -69,6 +69,7 @@ func _on_AttackTimer_timeout():
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
 	attack_state.attack_mid = false;
+	attack_state.attack_end = true;
 	pass;
 
 

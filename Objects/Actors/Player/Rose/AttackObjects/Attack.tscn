@@ -18,7 +18,10 @@ _sections_unfolded = [ "Collision" ]
 wind = 0.2
 attack = 0.1
 recoil = 0.2
-speed = 200
+speedx = 200
+speedy = 200
+fl = 0.6
+knockback = Vector2( 100, 100 )
 
 [node name="AttackTimer" type="Timer" parent="." index="0"]
 

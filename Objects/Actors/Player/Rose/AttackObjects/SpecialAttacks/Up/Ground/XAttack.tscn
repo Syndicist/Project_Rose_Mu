@@ -6,10 +6,10 @@
 [node name="XAttack" instance=ExtResource( 1 )]
 
 script = ExtResource( 2 )
-wind = 0.1
+wind = 0.3
 recoil = 0.1
 speedx = 200
-speedy = 800.0
+speedy = 600.0
 fl = 0.6
 knockback = Vector2( 50, 350 )
 

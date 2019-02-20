@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RoseSpecial_X_Horizontal_Ground.png-e7721ea20a6869fb7365194bf60a091c.stex"
+path="res://.import/Rose_Special_X_Horizontal_Air.png-755c9dd45936cc8462df5a5e2fc919cf.stex"
 
 [deps]
 
-source_file="res://Assets/Sprites/Rose/RoseSpecial_X_Horizontal_Ground.png"
-dest_files=[ "res://.import/RoseSpecial_X_Horizontal_Ground.png-e7721ea20a6869fb7365194bf60a091c.stex" ]
+source_file="res://Assets/Sprites/Rose/Rose_Special_X_Horizontal_Air.png"
+dest_files=[ "res://.import/Rose_Special_X_Horizontal_Air.png-755c9dd45936cc8462df5a5e2fc919cf.stex" ]
 
 [params]
 

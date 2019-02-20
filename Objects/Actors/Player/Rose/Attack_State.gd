@@ -17,6 +17,8 @@ var floating = false;
 var attack_start = false;
 #middle of the attack
 var attack_mid = false;
+#end of the attack
+var attack_end = false;
 var animate = false;
 
 ### attack codes ###
@@ -49,6 +51,15 @@ func enter():
 	pass;
 
 func handleAnimation():
+	print(attack_end);
+	if(attack_end):
+		print("!!!");
+		if(host.on_floor()):
+			if(combo_attack.length()%2 == 1):
+				host.new_anim = combo_attack.substr(combo_attack.length()-1,1) + "land";
+			else:
+				host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
+			print(host.new_anim);
 	pass;
 
 func handleInput(event):
@@ -92,8 +103,9 @@ func handleInput(event):
 				stopTimers();
 				attack_start = true;
 				combo_step += 1;
+				attack_end = false;
 		#cancel the combo
-		elif(track_input && !event.is_action_pressed("special")):
+		elif(track_input && event.is_action_pressed("end_combo")):
 			if(host.on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
@@ -132,6 +144,7 @@ func exit(state):
 	current_attack = 'nil';
 	attack_start = false;
 	attack_mid = false;
+	attack_end = false;
 	special = "";
 	dir = "";
 	place = "";
@@ -160,12 +173,12 @@ func attack():
 					exit('move_in_air');
 				return;
 		if ((combo_step in [1,2,3]) && current_attack != 'nil'):
-			host.new_anim = special+dir+place+combo_attack;
 			animate = true;
 			if(place == "Air"):
 				air_counter -= 1;
 				if(dir == "Up"): #TODO: enable once double jump is unlocked
 					special = "";
+			host.new_anim = special+dir+place+combo_attack;
 			var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + special + "Attacks/" + dir + "/" + place + "/" + combo_attack + "Attack.tscn"
 			special = "";
 			dir = "";
