@@ -105,7 +105,7 @@ func handleInput(event):
 				combo_step += 1;
 				attack_end = false;
 		#cancel the combo
-		elif(track_input && event.is_action_pressed("end_combo")):
+		elif(track_input && (event.is_action_pressed("end_combo") || combo_step >=3)):
 			if(host.on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
@@ -193,7 +193,6 @@ func attack():
 func stopTimers():
 	$InterruptTimer.stop();
 	$RecoilTimer.stop();
-	$EndComboTimer.stop();
 	$FloatTimer.stop();
 	track_input = false;
 	floating = false;
@@ -213,17 +212,11 @@ func _on_RecoilTimer_timeout():
 
 
 func _on_InterruptTimer_timeout():
-	$EndComboTimer.wait_time = end;
-	$EndComboTimer.start();
 	track_input = false;
+	combo_end = true;
 	pass;
 
 
 func _on_FloatTimer_timeout():
 	floating = false;
-	pass;
-
-
-func _on_EndComboTimer_timeout():
-	combo_end = true;
 	pass;

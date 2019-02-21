@@ -3,18 +3,18 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/Attack.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/Attacks/Down/Air/Down_Air_XAttack.gd" type="Script" id=2]
 
-[node name="XAttack" instance=ExtResource( 1 )]
+[node name="XAttack" index="0" instance=ExtResource( 1 )]
 
 script = ExtResource( 2 )
 wind = 0.1
 recoil = 0.1
-speedx = 200
-speedy = 200
-fl = 0.6
+speedx = 400.0
+speedy = 300.0
+fl = 0.3
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
 
 build_mode = 0
-polygon = PoolVector2Array( -13.1155, 8.82431, 1.76697, 20.4715, 19.5613, 19.5009, 22.7966, -1.20519, 8.23763, -25.7937, 40.5909, -6.38171, 43.8262, 16.5891, 36.7085, 34.7069, 18.5907, 39.5599, -4.70367, 29.8539 )
+polygon = PoolVector2Array( -18.9864, 18.4263, -21.4339, -0.105061, -18.1122, -11.4686, -6.39901, -5.87426, -9.1962, -0.629534, -9.54585, 4.79002, -5.69971, 10.9089, 2.16738, 15.8039, 7.58693, 13.0068, 8.98552, 3.39142, 5.13939, -10.2449, 5.83868, -23.007, 15.6288, -18.8113, 32.9364, -7.97215, 46.7081, 17.8542, 36.0833, 36.0835, 19.6498, 43.4262, 0.244308, 39.7549, -11.9934, 29.9647 )
 
 

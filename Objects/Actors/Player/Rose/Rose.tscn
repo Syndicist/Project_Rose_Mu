@@ -4,9 +4,9 @@
 [ext_resource path="res://Assets/Sprites/Rose/Rose_X_Down_Air.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Sprites/Rose/Rose_XX_Down_Air.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Sprites/Rose/Rose_X_Horizontal_Ground.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Sprites/Rose/Rose_X_Horizontal_Air.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Sprites/Rose/Rose_XX_Horizontal_Air.png" type="Texture" id=6]
-[ext_resource path="res://Assets/Sprites/Rose/Rose_XX_Horizontal_Ground.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/Rose/Rose_XX_Horizontal_Ground.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/Rose/Rose_X_Horizontal_Air.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/Rose/Rose_XX_Horizontal_Air.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Sprites/Rose/Rose_Special_X_Down_Air.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Sprites/Rose/Rose_Special_XX_Down_Air.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Sprites/Rose/Rose_Special_X_Down_Ground.png" type="Texture" id=10]
@@ -217,7 +217,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 4 ) ]
+"values": [ ExtResource( 5 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -303,7 +303,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ) ]
+"values": [ ExtResource( 6 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -346,7 +346,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 6 ) ]
+"values": [ ExtResource( 7 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -389,7 +389,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ) ]
+"values": [ ExtResource( 6 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -475,7 +475,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 7 ) ]
+"values": [ ExtResource( 5 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -751,9 +751,22 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=40]
 
+resource_name = "SpecialDownGroundXX"
 length = 0.3
 loop = false
 step = 0.05
@@ -791,11 +804,24 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 5, 5, 5, 5, 5, 5 ]
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=41]
 
+resource_name = "SpecialDownGroundXXX"
 length = 0.3
 loop = false
 step = 0.05
@@ -833,7 +859,19 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 5, 5, 5, 5, 5, 5 ]
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=19]
@@ -1885,8 +1923,8 @@ anims/SpecialDownAirX = SubResource( 13 )
 anims/SpecialDownAirXX = SubResource( 14 )
 anims/SpecialDownAirXXX = SubResource( 15 )
 anims/SpecialDownGroundX = SubResource( 16 )
-anims/SpecialDownGroundXX = SubResource( 17 )
-anims/SpecialDownGroundXXX = SubResource( 18 )
+anims/SpecialDownGroundXX = SubResource( 40 )
+anims/SpecialDownGroundXXX = SubResource( 41 )
 anims/SpecialHorizontalAirX = SubResource( 19 )
 anims/SpecialHorizontalAirXX = SubResource( 20 )
 anims/SpecialHorizontalAirXXX = SubResource( 21 )
@@ -1911,8 +1949,8 @@ blend_times = [  ]
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 
-texture = ExtResource( 22 )
-hframes = 5
+texture = ExtResource( 10 )
+hframes = 6
 _sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
@@ -1958,7 +1996,6 @@ script = ExtResource( 27 )
 
 [node name="Attack" type="Node2D" parent="States" index="2"]
 
-editor/display_folded = true
 script = ExtResource( 28 )
 _sections_unfolded = [ "Pause" ]
 
@@ -1983,14 +2020,7 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="EndComboTimer" type="Timer" parent="States/Attack" index="3"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="FloatTimer" type="Timer" parent="States/Attack" index="4"]
+[node name="FloatTimer" type="Timer" parent="States/Attack" index="3"]
 
 process_mode = 1
 wait_time = 1.0
@@ -2036,8 +2066,6 @@ _sections_unfolded = [ "Transform" ]
 [connection signal="timeout" from="States/Attack/CooldownTimer" to="States/Attack" method="_on_CooldownTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/RecoilTimer" to="States/Attack" method="_on_RecoilTimer_timeout"]
-
-[connection signal="timeout" from="States/Attack/EndComboTimer" to="States/Attack" method="_on_EndComboTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/FloatTimer" to="States/Attack" method="_on_FloatTimer_timeout"]
 
