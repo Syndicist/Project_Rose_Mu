@@ -55,13 +55,11 @@ func enter():
 
 func handleAnimation():
 	if(attack_end):
-		print("!!!");
 		if(host.on_floor()):
 			if(combo_attack.length()%2 == 1):
 				host.new_anim = combo_attack.substr(combo_attack.length()-1,1) + "land";
 			else:
 				host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
-			print(host.new_anim);
 	else:
 		host.new_anim = special+dir+place+combo_attack;
 	pass;
@@ -69,13 +67,12 @@ func handleAnimation():
 func handleInput(event):
 	if(air_counter <= 0 && track_input):
 		if(host.on_floor()):
-			exit('move_on_ground');
+			air_counter = 1;
 		else:
 			exit('move_in_air');
-		return;
+			return;
 	if(attack_mid || attack_end):
 		if(event.is_action_pressed("attack")):
-			print("!!!");
 			if(event.is_action_just_pressed("slash")):
 				saved_attack = 'X';
 			elif(event.is_action_just_pressed("bash") && bash_enabled):
@@ -85,7 +82,7 @@ func handleInput(event):
 			
 			if(current_attack != 'nil'):
 				attack_is_saved = true;
-	if(track_input):
+	elif(track_input):
 		if(event.is_action_pressed("left")):
 			dir = "Horizontal"
 			update_look_direction(-1);

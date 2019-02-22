@@ -47,6 +47,7 @@ func animate():
 	pass;
 
 func _physics_process(delta):
+	print(state);
 	#state machine
 	states[state].handleAnimation();
 	states[state].handleInput(Input);

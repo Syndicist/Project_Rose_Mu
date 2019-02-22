@@ -1986,8 +1986,6 @@ editor_draw_drag_margin = false
 
 [node name="States" type="Node2D" parent="." index="4"]
 
-editor/display_folded = true
-
 [node name="Move_On_Ground" type="Node2D" parent="States" index="0"]
 
 script = ExtResource( 26 )

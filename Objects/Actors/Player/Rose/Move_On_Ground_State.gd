@@ -14,7 +14,7 @@ func handleAnimation():
 func handleInput(event):
 	if(event.is_action_just_pressed("attack") && !attack.on_cooldown):
 		exit('attack');
-	if(event.is_action_pressed("jump")):
+	elif(event.is_action_pressed("jump")):
 		host.vspd = -host.jspd;
 		exit('move_in_air');
 	pass
@@ -30,6 +30,7 @@ func execute(delta):
 		exit('move_in_air');
 
 func exit(state):
+	print(state);
 	host.hspd = 0;
 	.exit(state);
 	pass
