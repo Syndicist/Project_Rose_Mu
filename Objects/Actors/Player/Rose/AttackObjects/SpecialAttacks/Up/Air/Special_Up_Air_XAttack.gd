@@ -1,11 +1,11 @@
-extends "res://Objects/Actors/Player/Rose/AttackObjects/Attack.gd"
+extends "res://Objects/Actors/Player/Rose/AttackObjects/XAttack.gd"
 
 func _physics_process(delta):
 	displacey();
 	print(host.vspd);
 
 func _on_AttackTimer_timeout():
-	queue_free();
+	._on_AttackTimer_timeout();
 	host.vspd = 0;
 	if(!host.on_floor()):
 		attack_state.floating = true;
@@ -14,9 +14,7 @@ func _on_AttackTimer_timeout():
 		host.vspd = -50;
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
-	attack_state.attack_mid = false;
 	attack_state.dashing = false;
-	attack_state.attack_end = true;
 	pass;
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Objects/Actors/Enemies/Dummy/Dummy.gd" type="Script" id=1]
 
@@ -7,7 +7,18 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 20.0096 )
 
-[node name="Dummy" type="KinematicBody2D"]
+[sub_resource type="Gradient" id=2]
+
+offsets = PoolRealArray( 0.704142 )
+colors = PoolColorArray( 0.746094, 0.189438, 0.189438, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+
+flags = 4
+gradient = SubResource( 2 )
+width = 16
+
+[node name="Dummy" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 8
@@ -37,6 +48,12 @@ _sections_unfolded = [ "Collision", "Pause" ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 
 shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="." index="2"]
+
+scale = Vector2( 1, 35 )
+texture = SubResource( 3 )
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 

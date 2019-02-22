@@ -7,6 +7,7 @@ var second_attack = 'nil';
 var third_attack = 'nil';
 var combo_attack = 'nil';
 var current_attack = 'nil';
+var saved_attack = 'nil';
 var on_cooldown = false;
 var dashing = false;
 var combo_end = false;
@@ -20,6 +21,8 @@ var attack_mid = false;
 #end of the attack
 var attack_end = false;
 var animate = false;
+var attack_spawned = false;
+var attack_is_saved = false;
 
 ### attack codes ###
 var special = "";
@@ -51,7 +54,6 @@ func enter():
 	pass;
 
 func handleAnimation():
-	print(attack_end);
 	if(attack_end):
 		print("!!!");
 		if(host.on_floor()):
@@ -60,6 +62,8 @@ func handleAnimation():
 			else:
 				host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
 			print(host.new_anim);
+	else:
+		host.new_anim = special+dir+place+combo_attack;
 	pass;
 
 func handleInput(event):
@@ -69,6 +73,18 @@ func handleInput(event):
 		else:
 			exit('move_in_air');
 		return;
+	if(attack_mid || attack_end):
+		if(event.is_action_pressed("attack")):
+			print("!!!");
+			if(event.is_action_just_pressed("slash")):
+				saved_attack = 'X';
+			elif(event.is_action_just_pressed("bash") && bash_enabled):
+				saved_attack = 'B';
+			elif(event.is_action_just_pressed("pierce") && pierce_enabled):
+				saved_attack = 'Y';
+			
+			if(current_attack != 'nil'):
+				attack_is_saved = true;
 	if(track_input):
 		if(event.is_action_pressed("left")):
 			dir = "Horizontal"
@@ -94,18 +110,42 @@ func handleInput(event):
 		if(event.is_action_pressed("attack")):
 			if(event.is_action_just_pressed("slash")):
 				current_attack = 'X';
-			elif(event.is_action_just_pressed("bash") && bash_enabled):
-				current_attack = 'B';
-			elif(event.is_action_just_pressed("pierce") && pierce_enabled):
-				current_attack = 'Y';
-			
+			elif(event.is_action_just_pressed("bash")):
+				if(!bash_enabled):
+					if(host.on_floor()):
+						exit('move_on_ground');
+					else:
+						exit('move_in_air');
+					return;
+				else:
+					current_attack = 'B';
+			elif(event.is_action_just_pressed("pierce")):
+				if(!bash_enabled):
+					if(host.on_floor()):
+						exit('move_on_ground');
+					else:
+						exit('move_in_air');
+					return;
+				else:
+					current_attack = 'Y';
 			if(current_attack != 'nil'):
 				stopTimers();
 				attack_start = true;
 				combo_step += 1;
 				attack_end = false;
+				attack_is_saved = false;
+				saved_attack = 'nil';
+		elif(attack_is_saved):
+			current_attack = saved_attack;
+			if(current_attack != 'nil'):
+				stopTimers();
+				attack_start = true;
+				combo_step += 1;
+				attack_end = false;
+				attack_is_saved = false;
+				saved_attack = 'nil'
 		#cancel the combo
-		elif(track_input && (event.is_action_pressed("end_combo") || combo_step >=3)):
+		elif(track_input && (!attack_is_saved || combo_step >=3)):
 			if(host.on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
@@ -142,6 +182,7 @@ func exit(state):
 	third_attack = 'nil';
 	combo_attack = 'nil';
 	current_attack = 'nil';
+	saved_attack = 'nil';
 	attack_start = false;
 	attack_mid = false;
 	attack_end = false;
@@ -151,6 +192,8 @@ func exit(state):
 	on_cooldown = true;
 	dashing = false;
 	hit = false;
+	attack_spawned = false;
+	attack_is_saved = false;
 	.exit(state);
 	pass;
 
@@ -172,18 +215,14 @@ func attack():
 				else:
 					exit('move_in_air');
 				return;
-		if ((combo_step in [1,2,3]) && current_attack != 'nil'):
+		if ((combo_step in [1,2,3]) && !attack_spawned && attack_start):
 			animate = true;
+			attack_spawned = true;
 			if(place == "Air"):
 				air_counter -= 1;
 				if(dir == "Up"): #TODO: enable once double jump is unlocked
 					special = "";
-			host.new_anim = special+dir+place+combo_attack;
 			var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + special + "Attacks/" + dir + "/" + place + "/" + combo_attack + "Attack.tscn"
-			special = "";
-			dir = "";
-			place = "";
-			current_attack = 'nil';
 			var effect = load(path).instance();
 			effect.host = host;
 			effect.attack_state = self;
@@ -207,6 +246,10 @@ func _on_CooldownTimer_timeout():
 func _on_RecoilTimer_timeout():
 	$InterruptTimer.wait_time = interrupt;
 	$InterruptTimer.start();
+	special = "";
+	dir = "";
+	place = "";
+	current_attack = 'nil';
 	track_input = true;
 	pass;
 

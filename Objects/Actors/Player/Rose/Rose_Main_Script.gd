@@ -71,7 +71,7 @@ func _physics_process(delta):
 		vspd += gravity * delta;
 	
 	#cap gravity
-	if(vspd > g_max):
+	if(vspd > g_max && !states['attack'].dashing):
 		vspd = g_max;
 	
 	if(is_on_ceiling()):
@@ -79,7 +79,7 @@ func _physics_process(delta):
 	pass;
 
 func on_floor():
-	return $floorcast_left.is_colliding() || $floorcast_mid.is_colliding() || $floorcast_right.is_colliding();
+	return test_move(transform, Vector2(0,5));
 
 """
 func _on_DetectHitboxArea_area_entered(area):

@@ -1,4 +1,4 @@
-extends "res://Objects/Actors/Player/Rose/AttackObjects/Attack.gd"
+extends "res://Objects/Actors/Player/Rose/AttackObjects/XAttack.gd"
 
 #For Down-Directional X Air Attacks
 func _ready():
@@ -14,12 +14,10 @@ func _physics_process(delta):
 	pass;
 
 func _on_AttackTimer_timeout():
-	queue_free();
+	._on_AttackTimer_timeout();
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
-	attack_state.attack_mid = false;
 	attack_state.dashing = false;
-	attack_state.attack_end = true;
 	pass;
 
 

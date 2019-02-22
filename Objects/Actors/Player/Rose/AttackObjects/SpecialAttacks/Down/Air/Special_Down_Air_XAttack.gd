@@ -1,10 +1,10 @@
-extends "res://Objects/Actors/Player/Rose/AttackObjects/Attack.gd"
+extends "res://Objects/Actors/Player/Rose/AttackObjects/XAttack.gd"
 
 func _ready():
 	host.hspd = 0;
 
 func _physics_process(delta):
-	impact();
+	#impact();
 	displacey();
 
 func impact():
