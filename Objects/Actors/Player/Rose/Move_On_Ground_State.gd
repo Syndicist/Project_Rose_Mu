@@ -17,6 +17,8 @@ func handleInput(event):
 	elif(event.is_action_pressed("jump")):
 		host.vspd = -host.jspd;
 		exit('move_in_air');
+	elif(!host.on_floor()):
+		exit('move_in_air');
 	pass
 
 func execute(delta):
@@ -26,8 +28,7 @@ func execute(delta):
 		host.hspd = host.mspd * host.Direction;
 	else:
 		host.hspd = 0;
-	if(!host.on_floor()):
-		exit('move_in_air');
+	pass;
 
 func exit(state):
 	print(state);

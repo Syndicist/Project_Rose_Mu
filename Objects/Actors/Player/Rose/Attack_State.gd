@@ -82,7 +82,7 @@ func handleInput(event):
 			
 			if(current_attack != 'nil'):
 				attack_is_saved = true;
-	elif(track_input):
+	if(track_input):
 		if(event.is_action_pressed("left")):
 			dir = "Horizontal"
 			update_look_direction(-1);
