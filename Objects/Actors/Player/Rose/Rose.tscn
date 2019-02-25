@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose_Main_Script.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Actors/Rose/Rose_X_Down_Air.png" type="Texture" id=2]
@@ -28,7 +28,7 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/Move_On_Ground_State.gd" type="Script" id=26]
 [ext_resource path="res://Objects/Actors/Player/Rose/Move_In_Air_State.gd" type="Script" id=27]
 [ext_resource path="res://Objects/Actors/Player/Rose/Attack_State.gd" type="Script" id=28]
-
+[ext_resource path="res://Objects/Actors/Player/Rose/Ledge_Grab_State.gd" type="Script" id=29]
 
 [sub_resource type="Animation" id=1]
 
@@ -1892,7 +1892,12 @@ tracks/3/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 19 )
 
-[node name="Rose" type="KinematicBody2D"]
+[sub_resource type="RectangleShape2D" id=40]
+
+custom_solver_bias = 0.0
+extents = Vector2( 254.779, 147.421 )
+
+[node name="Rose" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 2
@@ -1950,15 +1955,13 @@ blend_times = [  ]
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 
-texture = ExtResource( 10 )
-hframes = 6
+texture = ExtResource( 22 )
+hframes = 5
 _sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
 
-visible = false
 shape = SubResource( 39 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
@@ -1997,6 +2000,7 @@ script = ExtResource( 27 )
 
 [node name="Attack" type="Node2D" parent="States" index="2"]
 
+editor/display_folded = true
 script = ExtResource( 28 )
 _sections_unfolded = [ "Pause" ]
 
@@ -2028,6 +2032,58 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
+[node name="Ledge_Grab" type="Node2D" parent="States" index="3"]
+
+script = ExtResource( 29 )
+
+[node name="Climb_Timer" type="Timer" parent="States/Ledge_Grab" index="0"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="DetectHitboxArea" type="Area2D" parent="." index="5"]
+
+editor/display_folded = true
+visible = false
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 0
+collision_mask = 7424
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectHitboxArea" index="0"]
+
+shape = SubResource( 40 )
+
+[node name="RayCastCollision" type="Area2D" parent="." index="6"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 0
+collision_mask = 7169
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
+
+[node name="ledge_cast" type="RayCast2D" parent="." index="7"]
+
+position = Vector2( 0, -10 )
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 25, 0 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
 [connection signal="timeout" from="States/Attack/InterruptTimer" to="States/Attack" method="_on_InterruptTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/CooldownTimer" to="States/Attack" method="_on_CooldownTimer_timeout"]
@@ -2035,5 +2091,11 @@ autostart = false
 [connection signal="timeout" from="States/Attack/RecoilTimer" to="States/Attack" method="_on_RecoilTimer_timeout"]
 
 [connection signal="timeout" from="States/Attack/FloatTimer" to="States/Attack" method="_on_FloatTimer_timeout"]
+
+[connection signal="timeout" from="States/Ledge_Grab/Climb_Timer" to="States/Ledge_Grab" method="_on_Climb_Timer_timeout"]
+
+[connection signal="area_entered" from="DetectHitboxArea" to="." method="_on_DetectHitboxArea_area_entered"]
+
+[connection signal="area_exited" from="DetectHitboxArea" to="." method="_on_DetectHitboxArea_area_exited"]
 
 

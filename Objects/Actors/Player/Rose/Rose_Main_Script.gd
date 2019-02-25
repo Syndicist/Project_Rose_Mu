@@ -1,58 +1,43 @@
-extends KinematicBody2D
-
-###physics vars###
-var air_time = 0;
-var hspd = 0;
-var vspd = 0;
-var mspd = 200;
-var jspd = 470;
-var Direction = 1;
-var gravity = 1200;
-var g_max = 300;
-var velocity = Vector2(0,0);
-var floor_normal = Vector2(0,-1);
+extends "res://Objects/Actors/Actor.gd"
 
 ###states###
 #TODO: hurt_state
 onready var states = {
 	'move_on_ground' : $States/Move_On_Ground,
 	'move_in_air' : $States/Move_In_Air,
-	'attack' : $States/Attack
+	'attack' : $States/Attack,
+	'ledge_grab' : $States/Ledge_Grab
 }
 var state = 'move_on_ground';
-###hitbox detection###
-#var targettableHitboxes = [];
 
+###hitbox detection###
+var targettableHitboxes = [];
+var itemTrace = [];
 
 ###camera control###
 onready var cam = get_node("Camera2D");
 
-###animation vars###
-var anim = "";
-var new_anim = "idle";
-
 func _ready():
 	$Camera2D.current = true;
+	max_hp = 1;
+	damage = 1;
+	mspd = 200;
+	jspd = 400;
+	gravity = 1200;
+	tag = "player";
 	pass;
 
-func _process(delta):
-	
+func execute(delta):
+	hitboxLoop();
 	if(anim != new_anim):
 		animate();
 	pass;
 
-func animate():
-	anim = new_anim;
-	$animator.play(anim);
-	pass;
-
-func _physics_process(delta):
-	print(state);
+func phys_execute(delta):
 	#state machine
 	states[state].handleAnimation();
 	states[state].handleInput(Input);
 	states[state].execute(delta);
-	
 	#count time in air
 	air_time += delta;
 	
@@ -68,7 +53,7 @@ func _physics_process(delta):
 		vspd = 0;
 		states['attack'].air_counter = 1;
 	
-	if(!states['attack'].dashing && !states['attack'].floating):
+	if(!states['attack'].dashing && !states['attack'].floating && state != 'ledge_grab'):
 		vspd += gravity * delta;
 	
 	#cap gravity
@@ -79,10 +64,6 @@ func _physics_process(delta):
 		vspd = 0;
 	pass;
 
-func on_floor():
-	return test_move(transform, Vector2(0,5));
-
-"""
 func _on_DetectHitboxArea_area_entered(area):
 	if(!targettableHitboxes.has(area)):
 		targettableHitboxes.push_back(area);
@@ -95,9 +76,9 @@ func _on_DetectHitboxArea_area_exited(area):
 func hitboxLoop():
 	var space_state = get_world_2d().direct_space_state;
 	for item in targettableHitboxes:
-		var slash = nextRay(self,item,11,space_state);
-		var bash = nextRay(self,item,12,space_state);
-		var pierce = nextRay(self,item,13,space_state);
+		var slash = nextRay(self,item,10,space_state);
+		var bash = nextRay(self,item,11,space_state);
+		var pierce = nextRay(self,item,12,space_state);
 		if(slash || bash || pierce):
 			item.hittable = true;
 		else:
@@ -122,4 +103,3 @@ func nextRay(origin,dest,col_layer,spc):
 	else:
 		itemTrace.clear();
 		return false;
-"""

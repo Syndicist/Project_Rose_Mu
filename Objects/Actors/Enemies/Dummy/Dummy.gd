@@ -39,16 +39,18 @@ func _physics_process(delta):
 
 
 func _on_Area2D_area_entered(area):
-	if(area.host.global_position >= global_position):
-		Direction = -1;
-	else:
-		Direction = 1;
-	#hspd = area.speed * Direction; 
-	gravity = 600;
-	vspd = -area.knockback.y;
-	var dir = 1;
-	if(area.global_position.x > global_position.x):
-		dir = -1;
-	hspd = area.knockback.x * dir;
-	friction = 0;
+	if($Area2D.hittable):
+		if("attack" in area):
+			if(area.host.global_position >= global_position):
+				Direction = -1;
+			else:
+				Direction = 1;
+			#hspd = area.speed * Direction; 
+			gravity = 600;
+			vspd = -area.knockback.y;
+			var dir = 1;
+			if(area.global_position.x > global_position.x):
+				dir = -1;
+			hspd = area.knockback.x * dir;
+			friction = 0;
 	pass;

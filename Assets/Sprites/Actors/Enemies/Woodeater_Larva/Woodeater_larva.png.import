@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Woodeater_larva.png-d4eff058978583f9d8399865375b7ca4.stex"
+path="res://.import/Woodeater_larva.png-c17ad144023fb7e6c5c4eae7659d463c.stex"
 
 [deps]
 
-source_file="res://Assets/Sprites/Actors/Enemies/Woodeater_Larva_Stage_1/Woodeater_larva.png"
-dest_files=[ "res://.import/Woodeater_larva.png-d4eff058978583f9d8399865375b7ca4.stex" ]
+source_file="res://Assets/Sprites/Actors/Enemies/Woodeater_Larva/Woodeater_larva.png"
+dest_files=[ "res://.import/Woodeater_larva.png-c17ad144023fb7e6c5c4eae7659d463c.stex" ]
 
 [params]
 

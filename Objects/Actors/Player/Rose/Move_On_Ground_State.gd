@@ -2,6 +2,7 @@ extends "./Free_Motion_State.gd"
 
 func enter():
 	host.state = 'move_on_ground';
+	handleInput(Input);
 	pass
 
 func handleAnimation():
@@ -14,7 +15,7 @@ func handleAnimation():
 func handleInput(event):
 	if(event.is_action_just_pressed("attack") && !attack.on_cooldown):
 		exit('attack');
-	elif(event.is_action_pressed("jump")):
+	elif(event.is_action_just_pressed("jump")):
 		host.vspd = -host.jspd;
 		exit('move_in_air');
 	elif(!host.on_floor()):
@@ -31,7 +32,6 @@ func execute(delta):
 	pass;
 
 func exit(state):
-	print(state);
 	host.hspd = 0;
 	.exit(state);
 	pass

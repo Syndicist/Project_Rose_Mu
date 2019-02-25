@@ -72,7 +72,7 @@ func handleInput(event):
 			exit('move_in_air');
 			return;
 	if(attack_mid || attack_end):
-		if(event.is_action_pressed("attack")):
+		if(event.is_action_just_pressed("attack")):
 			if(event.is_action_just_pressed("slash")):
 				saved_attack = 'X';
 			elif(event.is_action_just_pressed("bash") && bash_enabled):
@@ -142,7 +142,7 @@ func handleInput(event):
 				attack_is_saved = false;
 				saved_attack = 'nil'
 		#cancel the combo
-		elif(track_input && (!attack_is_saved || combo_step >=3)):
+		elif(!attack_is_saved || combo_step >=3):
 			if(host.on_floor() && (
 			event.is_action_pressed("jump") ||
 			event.is_action_pressed("left") ||
