@@ -23,7 +23,7 @@ func _ready():
 	damage = 1;
 	mspd = 200;
 	jspd = 400;
-	gravity = 1200;
+	hp = max_hp;
 	tag = "player";
 	pass;
 

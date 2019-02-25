@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Tilesets/Primitive_Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/Actors/Enemies/Dummy/Dummy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Actors/Enemies/Woodeater_Worker/Woodeater_Worker.tscn" type="PackedScene" id=3]
 
 [node name="Test" type="Node2D"]
 
@@ -32,8 +32,8 @@ _sections_unfolded = [ "Cell", "Collision", "Occluder" ]
 
 position = Vector2( -116.597, 487.912 )
 
-[node name="Dummy" parent="." index="2" instance=ExtResource( 3 )]
+[node name="Woodeater_Worker" parent="." index="2" instance=ExtResource( 3 )]
 
-position = Vector2( -24.352, 482.158 )
+position = Vector2( -18.5735, 484.566 )
 
 

@@ -5,8 +5,8 @@ var max_hp;
 var damage;
 var mspd;
 var jspd;
-var gravity;
 var tag;
+
 var hp;
 
 ###physics vars###
@@ -14,6 +14,7 @@ var air_time = 0;
 var hspd = 0;
 var vspd = 0;
 var Direction = 1;
+var gravity = 1200;
 var g_max = 300;
 var velocity = Vector2(0,0);
 var floor_normal = Vector2(0,-1);
