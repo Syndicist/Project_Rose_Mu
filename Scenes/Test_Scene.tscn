@@ -4,11 +4,11 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Actors/Enemies/Woodeater_Worker/Woodeater_Worker.tscn" type="PackedScene" id=3]
 
-[node name="Test" type="Node2D"]
+[node name="Test" type="Node2D" index="0"]
 
 [node name="TileMap" type="TileMap" parent="." index="0"]
 
-position = Vector2( -46.2652, 0.323517 )
+position = Vector2( -125.897, 0.323547 )
 mode = 0
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
