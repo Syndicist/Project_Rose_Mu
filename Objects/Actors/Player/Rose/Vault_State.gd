@@ -24,7 +24,7 @@ func handleInput(event):
 	pass
 
 func execute(delta):
-	if(host.get_node("vault_cast").is_colliding() && !vaulted):
+	if(host.get_node("vault_cast").is_colliding()):
 		host.position.y -= 3;
 	else: 
 		vaulted = true;
@@ -42,6 +42,9 @@ func execute(delta):
 			host.hspd -= 25*host.Direction;
 	else:
 		host.hspd = 0;
+	
+	if(!vaulted && !host.get_node("vault_cast").is_colliding()):
+		exit_g_or_a();
 	
 	pass
 

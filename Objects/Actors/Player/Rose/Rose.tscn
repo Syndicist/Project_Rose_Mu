@@ -969,13 +969,13 @@ tracks/3/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 45 ), Vector2( 0, 35 ), Vector2( 0, 25 ), Vector2( 0, 5 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=21]
 resource_name = "vault_lift"
 
-[sub_resource type="RectangleShape2D" id=21]
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 10, 19 )
 
-[sub_resource type="RectangleShape2D" id=22]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 254.779, 147.421 )
 
 [node name="Rose" type="KinematicBody2D"]
@@ -1004,7 +1004,7 @@ anims/slashing_horizontal_up_air_basic_2 = SubResource( 17 )
 anims/slashing_horizontal_up_ground_basic_1 = SubResource( 18 )
 anims/slashing_horizontal_up_ground_basic_2 = SubResource( 19 )
 anims/slashing_up_ground_magic_special = SubResource( 20 )
-anims/vault_lift = SubResource( 23 )
+anims/vault_lift = SubResource( 21 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 9 )
@@ -1012,7 +1012,7 @@ hframes = 6
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 21 )
+shape = SubResource( 22 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -1059,7 +1059,7 @@ collision_layer = 0
 collision_mask = 7424
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectHitboxArea"]
-shape = SubResource( 22 )
+shape = SubResource( 23 )
 
 [node name="RayCastCollision" type="Area2D" parent="."]
 collision_layer = 0
