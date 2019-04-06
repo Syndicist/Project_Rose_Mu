@@ -1,13 +1,9 @@
 extends "./Free_Motion_State.gd"
 
+signal vault;
+
 ### temp inits ###
 var combo_step = 0;
-var first_attack = 'nil';
-var second_attack = 'nil';
-var third_attack = 'nil';
-var combo_attack = 'nil';
-var current_attack = 'nil';
-var saved_attack = 'nil';
 var on_cooldown = false;
 var dashing = false;
 var combo_end = false;
@@ -25,9 +21,15 @@ var attack_spawned = false;
 var attack_is_saved = false;
 
 ### attack codes ###
-var special = "";
-var dir = "Horizontal";
-var place = "Ground";
+var type = "slashing";
+var dir = "horizontal";
+var vdir = "";
+var place = "_ground";
+var magic = "";
+var current_attack = 'nil';
+var saved_attack = 'nil';
+var attack_str = "";
+var attack_idx = "";
 
 
 ### modifiable inits ###
@@ -35,134 +37,157 @@ var end = .5;
 var interrupt = .5;
 var distance_traversable = 80;
 var air_counter = 1;
-var cool = .25;
+var cool = 1;
+var base_cost = 15;
+var spec_cost = 25;
+var basic_cost = 15;
+var cur_cost = 0;
 
 ### item_vars ###
 var pierce_enabled = false;
 var bash_enabled = false;
 
+### debug_vars ###
+var input_testing = false;
+
 func enter():
 	host.state = 'attack';
-	if(on_cooldown):
-		if(host.on_floor()):
-			exit('move_on_ground');
-		else:
-			exit('move_in_air');
-		return;
 	track_input = true;
-	handleInput(Input);
+	saveInput(Input);
 	pass;
 
 func handleAnimation():
-	if(attack_end):
-		if(host.on_floor()):
-			if(combo_attack.length()%2 == 1):
-				host.new_anim = combo_attack.substr(combo_attack.length()-1,1) + "land";
-			else:
-				host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
-	else:
-		host.new_anim = special+dir+place+combo_attack;
+	if(!input_testing):
+		if(attack_end):
+			if(host.on_floor()):
+				pass;
+				#if(combo_attack.length()%2 == 1):
+				#	host.new_anim = combo_attack.substr(combo_attack.length()-1,1) + "land";
+				#else:
+				#	host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
+		else:
+			host.new_anim = attack_str + attack_idx;
+	
 	pass;
 
-func handleInput(event):
-	if(air_counter <= 0 && track_input):
-		if(host.on_floor()):
-			air_counter = 1;
-		else:
-			exit('move_in_air');
-			return;
-	if(attack_mid || attack_end):
-		if(event.is_action_just_pressed("attack")):
-			if(event.is_action_just_pressed("slash")):
-				saved_attack = 'X';
-			elif(event.is_action_just_pressed("bash") && bash_enabled):
-				saved_attack = 'B';
-			elif(event.is_action_just_pressed("pierce") && pierce_enabled):
-				saved_attack = 'Y';
+func saveInput(event):
+	if(event.is_action_just_pressed("basic_attack") || event.is_action_just_pressed("special_attack")):
+		if(event.is_action_just_pressed("basic_attack")):
 			
-			if(current_attack != 'nil'):
-				attack_is_saved = true;
+			saved_attack = 'basic';
+			cur_cost = basic_cost;
+		elif(event.is_action_just_pressed("special_attack")):
+			saved_attack = 'special';
+			cur_cost = spec_cost;
+			attack_idx = "";
+			if(host.magic_bool):
+				magic = "_magic";
+			else:
+				magic = "";
+		if(saved_attack != 'nil'):
+			attack_is_saved = true;
+	pass;
+
+func atk_left(event):
+	return event.is_action_pressed("rleft") || host.mouse_l() || event.is_action_pressed("left");
+
+func atk_right(event):
+	return event.is_action_pressed("rright") || host.mouse_r() || event.is_action_pressed("right");
+
+func atk_up(event):
+	return event.is_action_pressed("rup") || host.mouse_u() || event.is_action_pressed("up");
+
+func atk_down(event):
+	return event.is_action_pressed("rdown") || host.mouse_d() || event.is_action_pressed("down");
+
+func handleInput(event):
+	if(attack_mid || attack_end):
+		saveInput(event);
 	if(track_input):
-		if(event.is_action_pressed("left")):
-			dir = "Horizontal"
+		if(host.resource < -10):
+			exit_g_or_a();
+			return;
+		if(event.is_action_pressed("switchL") && event.is_action_pressed("switchR")):
+			exit('block');
+			return;
+		elif(event.is_action_pressed("switchL")):
+			type = "precision";
+		elif(event.is_action_pressed("switchR")):
+			type = "bashing";
+		else:
+			type = "slashing";
+		
+		if(atk_left(event)):
+			dir = "horizontal"
 			update_look_direction(-1);
-		elif(event.is_action_pressed("right")):
-			dir = "Horizontal";
+		elif(atk_right(event)):
+			dir = "horizontal";
 			update_look_direction(1);
-		elif(event.is_action_pressed("up")):
-			dir = "Up";
-		elif(event.is_action_pressed("down")): 
-			dir = "Down";
+		elif(host.mouse_enabled):
+			dir = "";
+		
+		if(atk_down(event) || atk_up(event)):
+			if(!atk_left(event) && !atk_right(event)):
+				dir = "";
+			if(atk_up(event)):
+				vdir = "_up";
+			elif(atk_down(event)):
+				vdir = "_down";
 		else:
-			dir = "Horizontal";
-		if(event.is_action_pressed("special")):
-			special = "Special";
-		else:
-			special = "";
+			vdir = "";
+			dir = "horizontal"
+		
+		
 		if(host.on_floor()):
-			place = "Ground";
+			place = "_ground";
 		else:
-			place = "Air";
+			place = "_air";
 		#if an attack is triggered, commit to it
-		if(event.is_action_pressed("attack")):
-			if(event.is_action_just_pressed("slash")):
-				current_attack = 'X';
-			elif(event.is_action_just_pressed("bash")):
-				if(!bash_enabled):
-					if(host.on_floor()):
-						exit('move_on_ground');
-					else:
-						exit('move_in_air');
-					return;
+		#print(event.is_action_just_pressed("basic_attack"));
+		if(event.is_action_just_pressed("basic_attack") || event.is_action_just_pressed("special_attack")):
+			if(event.is_action_just_pressed("basic_attack")):
+				current_attack = 'basic';
+				cur_cost = basic_cost;
+			elif(event.is_action_just_pressed("special_attack")):
+				current_attack = 'special';
+				cur_cost = spec_cost;
+				attack_idx = "";
+				if(host.magic_bool):
+					magic = "_magic";
 				else:
-					current_attack = 'B';
-			elif(event.is_action_just_pressed("pierce")):
-				if(!bash_enabled):
-					if(host.on_floor()):
-						exit('move_on_ground');
-					else:
-						exit('move_in_air');
-					return;
-				else:
-					current_attack = 'Y';
-			if(current_attack != 'nil'):
-				stopTimers();
-				attack_start = true;
-				combo_step += 1;
-				attack_end = false;
-				attack_is_saved = false;
-				saved_attack = 'nil';
+					magic = "";
+			
+			if(init_attack()):
+				return;
 		elif(attack_is_saved):
 			current_attack = saved_attack;
-			if(current_attack != 'nil'):
-				stopTimers();
-				attack_start = true;
-				combo_step += 1;
-				attack_end = false;
-				attack_is_saved = false;
-				saved_attack = 'nil'
+			if(init_attack()):
+				return;
 		#cancel the combo
-		elif(!attack_is_saved || combo_step >=3):
-			if(host.on_floor() && (
-			event.is_action_pressed("jump") ||
-			event.is_action_pressed("left") ||
-			event.is_action_pressed("right"))):
-				exit('move_on_ground');
-			elif(
-			event.is_action_pressed("left") ||
-			event.is_action_pressed("right")):
-				exit('move_in_air');
+		elif(!attack_is_saved && 
+			(!event.is_action_pressed("switchL") && 
+			!event.is_action_pressed("switchR") && 
+			!event.is_action_pressed("lock")) ):
+			if(event.is_action_pressed("left") ||
+				event.is_action_pressed("right")):
+				exit_g_or_a();
+				return;
+		elif(!attack_is_saved && !event.is_action_pressed("lock")):
+			if(event.is_action_just_pressed("jump")):
+				exit_g_or_a();
+				return;
 	#combo timeout
-	if(!attack_start && !attack_mid && combo_end):
-		if(host.on_floor()):
-			exit('move_on_ground');
-		else:
-			exit('move_in_air');
+	if(!attack_start && !attack_mid && combo_end && 
+		(!event.is_action_pressed("switchL") && 
+		!event.is_action_pressed("switchR") && 
+		!event.is_action_pressed("lock"))):
+		exit_g_or_a();
 		return;
 	pass;
 
 func execute(delta):
-	attack();
+	if(!input_testing):
+		attack();
 	#prevent player slipping
 	if(host.on_floor() && !attack_mid):
 		host.hspd = 0;
@@ -170,23 +195,13 @@ func execute(delta):
 
 func exit(state):
 	#reset
-	$CooldownTimer.wait_time = cool;
-	$CooldownTimer.start();
 	stopTimers();
+	reset_strings();
 	combo_step = 0;
-	first_attack = 'nil';
-	second_attack = 'nil';
-	third_attack = 'nil';
-	combo_attack = 'nil';
-	current_attack = 'nil';
-	saved_attack = 'nil';
 	attack_start = false;
 	attack_mid = false;
 	attack_end = false;
-	special = "";
-	dir = "";
-	place = "";
-	on_cooldown = true;
+	
 	dashing = false;
 	hit = false;
 	attack_spawned = false;
@@ -195,36 +210,93 @@ func exit(state):
 	pass;
 
 func attack():
-	if(current_attack != 'nil'):
-		match(combo_step):
-			1:
-				first_attack = current_attack;
-				combo_attack = first_attack;
-			2:
-				second_attack = first_attack + current_attack;
-				combo_attack = second_attack;
-			3:
-				third_attack = second_attack + current_attack;
-				combo_attack = third_attack;
-			4:
-				if(host.on_floor()):
-					exit('move_on_ground');
-				else:
-					exit('move_in_air');
-				return;
-		if ((combo_step in [1,2,3]) && !attack_spawned && attack_start):
-			animate = true;
-			attack_spawned = true;
-			if(place == "Air"):
-				air_counter -= 1;
-				if(dir == "Up"): #TODO: enable once double jump is unlocked
-					special = "";
-			var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + special + "Attacks/" + dir + "/" + place + "/" + combo_attack + "Attack.tscn"
-			var effect = load(path).instance();
-			effect.host = host;
-			effect.attack_state = self;
-			host.add_child(effect);
+	#if current_attack has a value, the attack hasn't actually triggered yet, and we're calling the attack to be triggered...
+	if(current_attack != 'nil' && !attack_spawned && attack_start):
+		#TODO: put this signal in the attacks instead
+		host.emit_signal("consume_resource", cur_cost);
+		animate = true;
+		attack_spawned = true;
+		
+		construct_attack_str();
+		
+		var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + type + "/" + current_attack + "/";
+		#Ignore certain string combinations that result in existing attacks
+		if(current_attack == "basic"):
+			if(attack_idx == "_1"):
+				attack_idx = "_2";
+			else:
+				attack_idx = "_1";
+			magic = "";
+			if(dir == "horizontal"):
+				if(!atk_up(Input) && !atk_down(Input)):
+					vdir = "";
+					place = "";
+				elif(!atk_down(Input)):
+					place = "";
+			elif(atk_up(Input)):
+				place = "";
+			
+			path += dir+vdir+place+"_attack.tscn";
+		
+		
+		if(current_attack == "special"):
+			if(vdir == "up"):
+				dir = "";
+				place = "";
+			if(dir == "horizontal"):
+				if(!Input.is_action_pressed("up") && !Input.is_action_pressed("down")):
+					vdir = "";
+					place = "";
+				elif(!Input.is_action_pressed("down")):
+					place = "";
+			
+			path += dir+vdir+place+magic+"_attack.tscn";
+		
+		var effect = load(path).instance();
+		effect.host = host;
+		effect.attack_state = self;
+		host.add_child(effect);
 	pass;
+
+func init_attack():
+	
+	if(input_testing):
+		construct_attack_str();
+		attack_is_saved = false;
+		return true;
+	else:
+		if(current_attack != 'nil'):
+			stopTimers();
+			attack_start = true;
+			combo_step += 1;
+			attack_end = false;
+			attack_is_saved = false;
+			saved_attack = 'nil'
+			return true;
+		return false;
+	pass;
+
+func construct_attack_str():
+	var tdir = dir;
+	var tvdir = vdir;
+	var tcurrent_attack = "";
+	if(dir != ""):
+		tdir = "_" + dir;
+	tcurrent_attack = "_" + current_attack;
+	
+	attack_str = type+tdir+tvdir+place+magic+tcurrent_attack;
+	print(attack_str);
+	pass;
+
+func reset_strings():
+	type = "slashing";
+	dir = "horizontal";
+	vdir = "";
+	place = "_ground";
+	magic = "";
+	current_attack = 'nil';
+	saved_attack = 'nil';
+	attack_str = "";
 
 func stopTimers():
 	$InterruptTimer.stop();
@@ -235,28 +307,30 @@ func stopTimers():
 	combo_end = false;
 	pass;
 
-func _on_CooldownTimer_timeout():
-	on_cooldown = false;
-	pass;
-
-
 func _on_RecoilTimer_timeout():
 	$InterruptTimer.wait_time = interrupt;
 	$InterruptTimer.start();
-	special = "";
-	dir = "";
-	place = "";
-	current_attack = 'nil';
+	reset_strings();
 	track_input = true;
 	pass;
 
 
 func _on_InterruptTimer_timeout():
-	track_input = false;
+	if(Input.is_action_pressed("attack")):
+		track_input = false;
 	combo_end = true;
 	pass;
 
 
 func _on_FloatTimer_timeout():
 	floating = false;
+	pass;
+
+func _on_Attack_vault():
+	if(dir == "horizontal"):
+		host.new_anim = "vault_lift";
+		host.hspd = 500 * host.Direction;
+	else:
+		host.new_anim = "vault_still";
+	exit("vault");
 	pass;

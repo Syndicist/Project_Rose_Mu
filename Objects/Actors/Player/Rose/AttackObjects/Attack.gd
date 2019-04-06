@@ -9,6 +9,7 @@ export(float) var recoil = .1;
 export(float) var speedx = 200;
 export(float) var speedy = 200;
 export(float) var fl = .6;
+export(int) var mDir = 1;
 export(Vector2) var knockback = Vector2(100,100);
 var pos;
 var displacement = Vector2(0,0);
@@ -16,6 +17,7 @@ var attack_traversal = Vector2(0,0);
 
 func _ready():
 	connect("area_entered", self, "on_area_entered");
+	connect("body_entered", self, "on_body_entered");
 	$WindupTimer.wait_time = wind;
 	$WindupTimer.start();
 	col.disabled = true;

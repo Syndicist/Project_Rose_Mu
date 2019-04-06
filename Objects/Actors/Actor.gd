@@ -1,7 +1,10 @@
 extends KinematicBody2D
 
+#warnings-disable: 
+
 ###actor_data###
 var max_hp;
+#warning-ignore-
 var damage;
 var mspd;
 var jspd;

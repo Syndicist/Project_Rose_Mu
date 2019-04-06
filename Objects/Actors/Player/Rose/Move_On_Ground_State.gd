@@ -13,7 +13,8 @@ func handleAnimation():
 	pass;
 
 func handleInput(event):
-	if(event.is_action_just_pressed("attack") && !attack.on_cooldown):
+	if(event.is_action_just_pressed("attack") && host.resource >= attack.base_cost):
+		print("!!!");
 		exit('attack');
 	elif(event.is_action_just_pressed("jump")):
 		host.vspd = -host.jspd;
