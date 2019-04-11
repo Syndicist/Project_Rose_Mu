@@ -2,6 +2,7 @@ extends Node2D
 
 var host;
 var attack_state;
+var dam;
 onready var col = get_node("collider");
 export(float) var wind = .1;
 export(float) var attack = .1;
@@ -10,14 +11,19 @@ export(float) var speedx = 200;
 export(float) var speedy = 200;
 export(float) var fl = .6;
 export(int) var mDir = 1;
-export(Vector2) var knockback = Vector2(100,100);
-var pos;
+export(Vector2) var knockback = Vector2(50,50);
+var pos = Vector2(0,0);
 var displacement = Vector2(0,0);
 var attack_traversal = Vector2(0,0);
+export(int) var vDirection = 1;
 
 func _ready():
 	connect("area_entered", self, "on_area_entered");
 	connect("body_entered", self, "on_body_entered");
+	initialize();
+	pass;
+
+func initialize():
 	$WindupTimer.wait_time = wind;
 	$WindupTimer.start();
 	col.disabled = true;
@@ -34,13 +40,26 @@ func displacex():
 	elif(host.position.x < pos.x):
 		displacement.x += pos.x - host.position.x;
 		pos.x = host.position.x;
-	if((abs(displacement.x) > attack_state.distance_traversable || abs(displacement.x) > attack_traversal.x) && attack_state.dashing):
-		if(host.on_floor()):
+	if(abs(displacement.x) < attack_traversal.x && attack_state.dashing):
+		if(host.on_floor() && !attack_state.dashing):
 			host.hspd = 0;
-		elif(speedx > 0):
+			speedx = 0;
+		if(host.hspd > 0.5):
 			host.hspd -= 25*host.Direction;
 			speedx -= 25
+		elif(host.hspd < 0.5):
+			host.hspd -= 25*host.Direction;
+			speedx -= 25*host.Direction;
+		else:
+			host.hspd = 0;
+			attack_state.dashing = false;
+	elif(abs(displacement.x) > attack_traversal.x):
+		host.hspd = 0;
+		speedx = 0;
 		attack_state.dashing = false;
+	if(!attack_state.dashing && !attack_state.attack_start):
+		speedx = 0;
+		host.hspd = 0;
 	pass;
 
 func displacey():
@@ -50,14 +69,27 @@ func displacey():
 	elif(host.position.y < pos.y):
 		displacement.y += pos.y - host.position.y;
 		pos.y = host.position.y;
-	if((abs(displacement.y) > attack_state.distance_traversable || abs(displacement.y) > attack_traversal.y) && attack_state.dashing):
-		if(host.on_floor()):
+	if(abs(displacement.y) < attack_traversal.y && attack_state.dashing):
+		if(host.on_floor() && !attack_state.dashing):
 			host.vspd = 0;
-		elif(speedy > 0):
-			host.vspd += 25;
-			speedy -= 25
+			speedy = 0;
+		if(host.vspd > 0.5):
+			host.vspd -= 25*host.Direction;
+			speedy -= 25;
+		elif(host.vspd < 0.5):
+			host.vspd -= 25*vDirection;
+			speedy -= 25*vDirection;
+		else:
+			host.vspd = 0;
+			attack_state.dashing = false;
+	elif(abs(displacement.y) > attack_traversal.y):
+		host.vspd = 0;
+		speedy = 0;
 		attack_state.dashing = false;
-	pass;
+	if(!attack_state.dashing && !attack_state.attack_start):
+		speedy = 0;
+		host.vspd = 0;
+	pass
 
 ### All attacks need versions of these ###
 func _on_AttackTimer_timeout():

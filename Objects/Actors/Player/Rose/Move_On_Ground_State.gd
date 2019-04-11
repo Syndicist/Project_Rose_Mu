@@ -7,14 +7,13 @@ func enter():
 
 func handleAnimation():
 	if(host.hspd > 0 || host.hspd < 0):
-		host.new_anim = "run";
+		host.animate("run", false);
 	else: 
-		host.new_anim = "idle";
+		host.animate("idle", false);
 	pass;
 
 func handleInput(event):
 	if(event.is_action_just_pressed("attack") && host.resource >= attack.base_cost):
-		print("!!!");
 		exit('attack');
 	elif(event.is_action_just_pressed("jump")):
 		host.vspd = -host.jspd;

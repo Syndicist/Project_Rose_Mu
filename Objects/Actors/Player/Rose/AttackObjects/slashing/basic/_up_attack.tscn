@@ -5,9 +5,9 @@
 
 [node name="XAttack" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-wind = 0.1
 recoil = 0.1
 speedy = 0.0
+movey = false
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
 rotation = -1.5708

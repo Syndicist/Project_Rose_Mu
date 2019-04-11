@@ -51,12 +51,11 @@ func execute(delta):
 	
 	hitboxLoop();
 	manage_resources();
-	if(anim != new_anim):
-		animate();
+	
 	pass;
 
 func phys_execute(delta):
-	#print(state)
+	#print(state);
 	#state machine
 	states[state].handleAnimation();
 	states[state].handleInput(Input);
@@ -160,7 +159,7 @@ func _on_Stamina_Timer_timeout():
 		$Stamina_Timer.start();
 	elif(stamina < 100):
 		stamina += 1;
-	print(resource);
+	#print(resource);
 	pass;
 
 func mouse_r():

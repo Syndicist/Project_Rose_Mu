@@ -30,8 +30,6 @@ func execute(delta):
 	
 	if(hp <= 0):
 		Kill();
-	if(anim != new_anim):
-		animate();
 	pass
 
 func phys_execute(delta):

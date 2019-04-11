@@ -22,10 +22,6 @@ var g_max = 300;
 var velocity = Vector2(0,0);
 var floor_normal = Vector2(0,-1);
 
-###animation vars###
-var anim = "";
-var new_anim = "idle";
-
 func _ready():
 	hp = max_hp;
 	### default movement controller vars ###
@@ -49,8 +45,8 @@ func execute(delta):
 func phys_execute(delta):
 	pass;
 
-func animate():
-	anim = new_anim;
+func animate(anim, cont = true):
+	$animator.stop(cont);
 	$animator.play(anim);
 	pass;
 

@@ -42,6 +42,7 @@ var base_cost = 15;
 var spec_cost = 25;
 var basic_cost = 15;
 var cur_cost = 0;
+var anim_start = true;
 
 ### item_vars ###
 var pierce_enabled = false;
@@ -65,8 +66,8 @@ func handleAnimation():
 				#	host.new_anim = combo_attack.substr(combo_attack.length()-1,1) + "land";
 				#else:
 				#	host.new_anim = "-" + combo_attack.substr(combo_attack.length()-1,1) + "land";
-		else:
-			host.new_anim = attack_str + attack_idx;
+		elif(attack_start):
+			host.animate(attack_str + attack_idx, false);
 	
 	pass;
 
@@ -240,15 +241,14 @@ func attack():
 		
 		
 		if(current_attack == "special"):
-			if(vdir == "up"):
-				dir = "";
-				place = "";
 			if(dir == "horizontal"):
-				if(!Input.is_action_pressed("up") && !Input.is_action_pressed("down")):
+				if(!atk_up(Input) && !atk_down(Input)):
 					vdir = "";
 					place = "";
-				elif(!Input.is_action_pressed("down")):
+				elif(!atk_down(Input)):
 					place = "";
+			elif(atk_up(Input)):
+				place = "";
 			
 			path += dir+vdir+place+magic+"_attack.tscn";
 		
@@ -328,9 +328,9 @@ func _on_FloatTimer_timeout():
 
 func _on_Attack_vault():
 	if(dir == "horizontal"):
-		host.new_anim = "vault_lift";
+		host.animate("vault_lift");
 		host.hspd = 500 * host.Direction;
 	else:
-		host.new_anim = "vault_still";
+		host.animate("vault_still");
 	exit("vault");
 	pass;

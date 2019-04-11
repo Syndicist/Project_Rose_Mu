@@ -1007,11 +1007,17 @@ anims/slashing_up_ground_magic_special = SubResource( 20 )
 anims/vault_lift = SubResource( 21 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 9 )
-hframes = 6
-frame = 5
+position = Vector2( -45, 0 )
+texture = ExtResource( 16 )
+hframes = 14
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 22 )
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 22 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -1019,6 +1025,7 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="States" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Move_On_Ground" type="Node2D" parent="States"]
 script = ExtResource( 22 )

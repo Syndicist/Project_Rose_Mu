@@ -9,9 +9,9 @@ func enter():
 
 func handleAnimation():
 	if(host.vspd < 0):
-		host.new_anim = "jump";
+		host.animate("jump", false);
 	elif(host.vspd > 0):
-		host.new_anim = "fall";
+		host.animate("fall", false);
 	pass;
 
 func handleInput(event):

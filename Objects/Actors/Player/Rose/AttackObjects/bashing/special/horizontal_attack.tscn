@@ -5,10 +5,10 @@
 
 [node name="XAttack" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-wind = 0.12
+wind = 0.1
 recoil = 0.1
-knockback = Vector2( 150, 100 )
+knockback = Vector2( 300, 0 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
-polygon = PoolVector2Array( -77.3157, 3.79201, -65.7253, -4.14961, -42.759, -7.36919, 1.02724, -11.018, 42.6671, -6.93991, 62.1992, -4.57889, 76.7946, 3.14809, 67.1358, 10.2312, 36.6572, 15.8118, -12.495, 16.4557, -43.4029, 13.88, -65.296, 10.6604 )
+polygon = PoolVector2Array( 16.2532, 3.30807, 16.4469, -3.66553, 50.7338, -7.15234, 59.8382, -0.759865, 50.1527, 7.1823 )
 
