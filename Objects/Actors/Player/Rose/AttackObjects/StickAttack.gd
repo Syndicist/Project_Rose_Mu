@@ -1,6 +1,7 @@
 extends "res://Objects/Actors/Player/Rose/AttackObjects/DontMoveAttack.gd"
 
 func initialize():
+	.initialize();
 	attack_traversal.x = 32;
 	attack_traversal.y = 16;
 	pass;
@@ -19,7 +20,7 @@ func _on_AttackTimer_timeout():
 
 func on_area_entered(area):
 	.on_area_entered(area);
-	
+	#TODO: enemy stick
 	pass;
 
 func on_body_entered(body):

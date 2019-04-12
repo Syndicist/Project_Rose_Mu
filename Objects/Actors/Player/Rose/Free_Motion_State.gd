@@ -11,5 +11,5 @@ func update_look_direction(direction):
 		return;
 	if(host.Direction != direction):
 		if(host.Direction != 0):
-			host.scale.x = host.scale.x * -1;
+			host.get_node("Sprite").scale.x = host.get_node("Sprite").scale.x * -1;
 		host.Direction = direction;

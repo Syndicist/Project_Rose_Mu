@@ -24,6 +24,8 @@ func _ready():
 	pass;
 
 func initialize():
+	if(host.Direction == -1):
+		scale.x = scale.x * -1;
 	$WindupTimer.wait_time = wind;
 	$WindupTimer.start();
 	col.disabled = true;
@@ -47,7 +49,7 @@ func displacex():
 		if(host.hspd > 0.5):
 			host.hspd -= 25*host.Direction;
 			speedx -= 25
-		elif(host.hspd < 0.5):
+		elif(host.hspd < -0.5):
 			host.hspd -= 25*host.Direction;
 			speedx -= 25*host.Direction;
 		else:
@@ -76,7 +78,7 @@ func displacey():
 		if(host.vspd > 0.5):
 			host.vspd -= 25*host.Direction;
 			speedy -= 25;
-		elif(host.vspd < 0.5):
+		elif(host.vspd < -0.5):
 			host.vspd -= 25*vDirection;
 			speedy -= 25*vDirection;
 		else:

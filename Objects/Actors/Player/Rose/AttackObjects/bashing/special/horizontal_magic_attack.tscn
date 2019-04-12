@@ -10,5 +10,5 @@ recoil = 0.1
 knockback = Vector2( 500, 0 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
-polygon = PoolVector2Array( 16.2532, 3.30807, 16.4469, -3.66553, 50.7338, -7.15234, 59.8382, -0.759865, 50.1527, 7.1823 )
+polygon = PoolVector2Array( 16.2532, 3.30807, 16.4469, -3.66553, 61.9691, -15.4816, 77.6597, 0.790184, 61.1942, 14.35 )
 

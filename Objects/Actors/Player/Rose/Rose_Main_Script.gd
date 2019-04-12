@@ -32,7 +32,7 @@ var rad = 0.0;
 var deg = 0.0;
 
 ### vars to send elsewhere
-var mouse_enabled = false;
+var mouse_enabled = true;
 
 func _ready():
 	$Camera2D.current = true;
@@ -56,6 +56,7 @@ func execute(delta):
 
 func phys_execute(delta):
 	#print(state);
+	#print(vspd);
 	#state machine
 	states[state].handleAnimation();
 	states[state].handleInput(Input);
@@ -67,7 +68,6 @@ func phys_execute(delta):
 	velocity.y = vspd;
 	velocity.x = hspd;
 	velocity = move_and_slide(velocity, floor_normal);
-	
 	#no gravity acceleration when on floor
 	if(is_on_floor()):
 		air_time = 0;

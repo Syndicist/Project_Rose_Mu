@@ -31,7 +31,7 @@ func execute(delta):
 	
 	if(host.position.x > pos.x):
 		displacement += host.position.x - pos.x;
-		pos.x = host.position.x;
+		pos.x = host.position.x; 
 	elif(host.position.x < pos.x):
 		displacement += pos.x - host.position.x;
 		pos.x = host.position.x;
@@ -51,7 +51,7 @@ func execute(delta):
 func exit(state):
 	vaulted = false;
 	vaulting = false;
-	distance_traversable = 60;
+	#distance_traversable = 60;
 	displacement = 0
 	pos = host.position
 	.exit(state);

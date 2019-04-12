@@ -1,6 +1,7 @@
 extends "res://Objects/Actors/Player/Rose/AttackObjects/DontMoveAttack.gd"
 
 func initialize():
+	.initialize();
 	attack_traversal.x = 32;
 	attack_traversal.y = 16;
 	pass;

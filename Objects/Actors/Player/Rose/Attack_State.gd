@@ -43,6 +43,7 @@ var spec_cost = 25;
 var basic_cost = 15;
 var cur_cost = 0;
 var anim_start = true;
+var cast_length = 65;
 
 ### item_vars ###
 var pierce_enabled = false;
@@ -74,7 +75,6 @@ func handleAnimation():
 func saveInput(event):
 	if(event.is_action_just_pressed("basic_attack") || event.is_action_just_pressed("special_attack")):
 		if(event.is_action_just_pressed("basic_attack")):
-			
 			saved_attack = 'basic';
 			cur_cost = basic_cost;
 		elif(event.is_action_just_pressed("special_attack")):
@@ -144,7 +144,6 @@ func handleInput(event):
 		else:
 			place = "_air";
 		#if an attack is triggered, commit to it
-		#print(event.is_action_just_pressed("basic_attack"));
 		if(event.is_action_just_pressed("basic_attack") || event.is_action_just_pressed("special_attack")):
 			if(event.is_action_just_pressed("basic_attack")):
 				current_attack = 'basic';
@@ -190,7 +189,7 @@ func execute(delta):
 	if(!input_testing):
 		attack();
 	#prevent player slipping
-	if(host.on_floor() && !attack_mid):
+	if(host.on_floor() && !attack_mid && !dashing):
 		host.hspd = 0;
 	pass;
 
@@ -207,6 +206,9 @@ func exit(state):
 	hit = false;
 	attack_spawned = false;
 	attack_is_saved = false;
+	
+	host.get_node("vault_cast").cast_to = Vector2(0, cast_length);
+	
 	.exit(state);
 	pass;
 
@@ -241,16 +243,34 @@ func attack():
 		
 		
 		if(current_attack == "special"):
-			if(dir == "horizontal"):
-				if(!atk_up(Input) && !atk_down(Input)):
-					vdir = "";
+			if(type == "slashing" || type == "bashing"):
+				if(dir == "horizontal"):
+					if(!atk_up(Input) && !atk_down(Input)):
+						vdir = "";
+						place = "";
+					elif(!atk_down(Input) || type == "bashing"):
+						place = "";
+				elif(atk_up(Input)):
 					place = "";
-				elif(!atk_down(Input)):
-					place = "";
-			elif(atk_up(Input)):
-				place = "";
+					
 			
 			path += dir+vdir+place+magic+"_attack.tscn";
+		
+		var true_length = cast_length;
+		if((atk_down(Input) || atk_up(Input)) && (atk_right(Input) || atk_left(Input))):
+			true_length = true_length / sqrt(2);
+		if(atk_down(Input)):
+			host.get_node("vault_cast").cast_to.y = true_length;
+		elif(atk_up(Input)):
+			host.get_node("vault_cast").cast_to.y = -true_length;
+		else:
+			host.get_node("vault_cast").cast_to.y = 0;
+		if(atk_right(Input)):
+			host.get_node("vault_cast").cast_to.x = true_length;
+		elif(atk_left(Input)):
+			host.get_node("vault_cast").cast_to.x = -true_length;
+		else:
+			host.get_node("vault_cast").cast_to.x = 0;
 		
 		var effect = load(path).instance();
 		effect.host = host;
