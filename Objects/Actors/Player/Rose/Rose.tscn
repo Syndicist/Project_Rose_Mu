@@ -979,6 +979,7 @@ extents = Vector2( 10, 19 )
 extents = Vector2( 254.779, 147.421 )
 
 [node name="Rose" type="KinematicBody2D"]
+position = Vector2( -1, 0 )
 collision_layer = 2
 collision_mask = 1024
 script = ExtResource( 1 )
@@ -1031,7 +1032,6 @@ script = ExtResource( 22 )
 script = ExtResource( 23 )
 
 [node name="Attack" type="Node2D" parent="States"]
-editor/display_folded = true
 script = ExtResource( 24 )
 
 [node name="InterruptTimer" type="Timer" parent="States/Attack"]
@@ -1044,6 +1044,9 @@ one_shot = true
 one_shot = true
 
 [node name="FloatTimer" type="Timer" parent="States/Attack"]
+one_shot = true
+
+[node name="VaultTimer" type="Timer" parent="States/Attack"]
 one_shot = true
 
 [node name="Ledge_Grab" type="Node2D" parent="States"]
@@ -1075,9 +1078,8 @@ enabled = true
 cast_to = Vector2( 25, 0 )
 
 [node name="vault_cast" type="RayCast2D" parent="."]
-position = Vector2( 0, -10 )
 enabled = true
-cast_to = Vector2( 0, 65 )
+cast_to = Vector2( 0, 75 )
 collision_mask = 33
 
 [node name="Stamina_Timer" type="Timer" parent="."]
@@ -1089,6 +1091,7 @@ autostart = true
 [connection signal="timeout" from="States/Attack/CooldownTimer" to="States/Attack" method="_on_CooldownTimer_timeout"]
 [connection signal="timeout" from="States/Attack/RecoilTimer" to="States/Attack" method="_on_RecoilTimer_timeout"]
 [connection signal="timeout" from="States/Attack/FloatTimer" to="States/Attack" method="_on_FloatTimer_timeout"]
+[connection signal="timeout" from="States/Attack/VaultTimer" to="States/Attack" method="_on_VaultTimer_timeout"]
 [connection signal="timeout" from="States/Ledge_Grab/Climb_Timer" to="States/Ledge_Grab" method="_on_Climb_Timer_timeout"]
 [connection signal="area_entered" from="DetectHitboxArea" to="." method="_on_DetectHitboxArea_area_entered"]
 [connection signal="area_exited" from="DetectHitboxArea" to="." method="_on_DetectHitboxArea_area_exited"]

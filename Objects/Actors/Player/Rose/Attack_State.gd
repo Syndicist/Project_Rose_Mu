@@ -43,7 +43,8 @@ var spec_cost = 25;
 var basic_cost = 15;
 var cur_cost = 0;
 var anim_start = true;
-var cast_length = 65;
+var cast_length = 75;
+var val = .2;
 
 ### item_vars ###
 var pierce_enabled = false;
@@ -207,7 +208,6 @@ func exit(state):
 	attack_spawned = false;
 	attack_is_saved = false;
 	
-	host.get_node("vault_cast").cast_to = Vector2(0, cast_length);
 	
 	.exit(state);
 	pass;
@@ -347,10 +347,23 @@ func _on_FloatTimer_timeout():
 	pass;
 
 func _on_Attack_vault():
-	if(dir == "horizontal"):
+	host.get_node("vault_cast").cast_to = Vector2(0, cast_length);
+	if(dir == "horizontal" && current_attack == "basic"):
 		host.animate("vault_lift");
 		host.hspd = 500 * host.Direction;
+		host.vspd = -200;
+		
+		$VaultTimer.wait_time = val;
 	else:
 		host.animate("vault_still");
+		$VaultTimer.wait_time = 0.1;
+	$VaultTimer.start();
+	pass;
+
+
+func _on_VaultTimer_timeout():
+	host.hspd = 0;
+	host.vspd = 0;
+	
 	exit("vault");
 	pass;

@@ -4,6 +4,7 @@ var vaulted = false;
 var vaulting = false;
 var distance_traversable = 50;
 var displacement = 0
+var hor = false;
 var pos
 
 func enter():
@@ -25,9 +26,12 @@ func handleInput(event):
 
 func execute(delta):
 	if(host.get_node("vault_cast").is_colliding()):
-		host.position.y -= 3;
-	else: 
+		if(hor):
+			host.position.y -= 3 * sign(host.get_node("vault_cast").cast_to.x);
+		host.position.y -= 3 * sign(host.get_node("vault_cast").cast_to.y);
+	else:
 		vaulted = true;
+	
 	
 	if(host.position.x > pos.x):
 		displacement += host.position.x - pos.x;
@@ -51,6 +55,7 @@ func execute(delta):
 func exit(state):
 	vaulted = false;
 	vaulting = false;
+	hor = false;
 	#distance_traversable = 60;
 	displacement = 0
 	pos = host.position

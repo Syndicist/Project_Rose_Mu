@@ -87,7 +87,7 @@ func phys_execute(delta):
 	pass;
 
 func grav_activated():
-	return (!states['attack'].dashing && !states['attack'].floating && state != 'ledge_grab' && !states['vault'].vaulting);
+	return (!states['attack'].dashing && !states['attack'].floating && state != 'ledge_grab' && !states['vault'].vaulting && !states['vault'].vaulted);
 
 func _on_DetectHitboxArea_area_entered(area):
 	if(!targettableHitboxes.has(area)):

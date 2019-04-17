@@ -26,6 +26,7 @@ func _ready():
 func initialize():
 	if(host.Direction == -1):
 		scale.x = scale.x * -1;
+		rotation = -rotation;
 	$WindupTimer.wait_time = wind;
 	$WindupTimer.start();
 	col.disabled = true;

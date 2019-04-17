@@ -6,11 +6,6 @@ func initialize():
 	attack_traversal.y = 16;
 	pass;
 
-func _physics_process(delta):
-	displacex();
-	displacey();
-	pass;
-
 func _on_AttackTimer_timeout():
 	._on_AttackTimer_timeout();
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
