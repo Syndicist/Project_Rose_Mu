@@ -53,16 +53,10 @@ func displacex():
 		elif(host.hspd < -0.5):
 			host.hspd -= 25*host.Direction;
 			speedx -= 25*host.Direction;
-		else:
-			host.hspd = 0;
-			attack_state.dashing = false;
 	elif(abs(displacement.x) > attack_traversal.x):
 		host.hspd = 0;
 		speedx = 0;
 		attack_state.dashing = false;
-	if(!attack_state.dashing && !attack_state.attack_start):
-		speedx = 0;
-		host.hspd = 0;
 	pass;
 
 func displacey():
@@ -82,16 +76,10 @@ func displacey():
 		elif(host.vspd < -0.5):
 			host.vspd -= 25*vDirection;
 			speedy -= 25*vDirection;
-		else:
-			host.vspd = 0;
-			attack_state.dashing = false;
 	elif(abs(displacement.y) > attack_traversal.y):
 		host.vspd = 0;
 		speedy = 0;
 		attack_state.dashing = false;
-	if(!attack_state.dashing && !attack_state.attack_start):
-		speedy = 0;
-		host.vspd = 0;
 	pass
 
 ### All attacks need versions of these ###
@@ -115,4 +103,7 @@ func _on_WindupTimer_timeout():
 func on_area_entered(area):
 	attack_state.hit = true;
 	attack_state.air_counter = 1;
+	pass;
+
+func on_body_entered(body):
 	pass;

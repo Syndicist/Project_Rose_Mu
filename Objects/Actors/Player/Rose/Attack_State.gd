@@ -33,8 +33,9 @@ var attack_idx = "";
 
 
 ### modifiable inits ###
-var end = .5;
-var interrupt = .5;
+var end_time = .5;
+var interrupt_time = .5;
+var vault_time = .2;
 var distance_traversable = 80;
 var air_counter = 1;
 var cool = 1;
@@ -42,9 +43,8 @@ var base_cost = 15;
 var spec_cost = 25;
 var basic_cost = 15;
 var cur_cost = 0;
-var anim_start = true;
 var cast_length = 75;
-var val = .2;
+
 
 ### item_vars ###
 var pierce_enabled = false;
@@ -59,9 +59,11 @@ func enter():
 	saveInput(Input);
 	pass;
 
+### Handles animation, incomplete ###
 func handleAnimation():
 	if(!input_testing):
 		if(attack_end):
+			#landing frames
 			if(host.on_floor()):
 				pass;
 				#if(combo_attack.length()%2 == 1):
@@ -73,6 +75,7 @@ func handleAnimation():
 	
 	pass;
 
+### Prepares next move if user input is detected ###
 func saveInput(event):
 	if(event.is_action_just_pressed("basic_attack") || event.is_action_just_pressed("special_attack")):
 		if(event.is_action_just_pressed("basic_attack")):
@@ -90,6 +93,8 @@ func saveInput(event):
 			attack_is_saved = true;
 	pass;
 
+
+### Determines direction of attack ###
 func atk_left(event):
 	return event.is_action_pressed("rleft") || host.mouse_l() || event.is_action_pressed("left");
 
@@ -102,6 +107,7 @@ func atk_up(event):
 func atk_down(event):
 	return event.is_action_pressed("rdown") || host.mouse_d() || event.is_action_pressed("down");
 
+### Handles all player input to decide what attack to trigger ###
 func handleInput(event):
 	if(attack_mid || attack_end):
 		saveInput(event);
@@ -186,6 +192,7 @@ func handleInput(event):
 		return;
 	pass;
 
+### Runs every frame ###
 func execute(delta):
 	if(!input_testing):
 		attack();
@@ -194,8 +201,10 @@ func execute(delta):
 		host.hspd = 0;
 	pass;
 
+### Cleans state up when player changes state ###
 func exit(state):
 	#reset
+	host.reset_hitbox();
 	stopTimers();
 	reset_strings();
 	combo_step = 0;
@@ -207,11 +216,10 @@ func exit(state):
 	hit = false;
 	attack_spawned = false;
 	attack_is_saved = false;
-	
-	
 	.exit(state);
 	pass;
 
+### Triggers appropriate attack based on the strings constructed by player input ###
 func attack():
 	#if current_attack has a value, the attack hasn't actually triggered yet, and we're calling the attack to be triggered...
 	if(current_attack != 'nil' && !attack_spawned && attack_start):
@@ -220,7 +228,7 @@ func attack():
 		animate = true;
 		attack_spawned = true;
 		
-		construct_attack_str();
+		construct_attack_string();
 		
 		var path = "res://Objects/Actors/Player/Rose/AttackObjects/" + type + "/" + current_attack + "/";
 		#Ignore certain string combinations that result in existing attacks
@@ -236,6 +244,8 @@ func attack():
 					place = "";
 				elif(!atk_down(Input)):
 					place = "";
+				elif(atk_down(Input) && place == "ground"):
+					attack_idx = "";
 			elif(atk_up(Input)):
 				place = "";
 			
@@ -278,10 +288,11 @@ func attack():
 		host.add_child(effect);
 	pass;
 
+### Initializes attack once the player has committed ###
 func init_attack():
-	
+	host.reset_hitbox();
 	if(input_testing):
-		construct_attack_str();
+		construct_attack_string();
 		attack_is_saved = false;
 		return true;
 	else:
@@ -296,7 +307,8 @@ func init_attack():
 		return false;
 	pass;
 
-func construct_attack_str():
+### Constructs the string used to look up attack hitboxes and animations ###
+func construct_attack_string():
 	var tdir = dir;
 	var tvdir = vdir;
 	var tcurrent_attack = "";
@@ -308,6 +320,7 @@ func construct_attack_str():
 	print(attack_str);
 	pass;
 
+### Resets attack strings ###
 func reset_strings():
 	type = "slashing";
 	dir = "horizontal";
@@ -318,6 +331,7 @@ func reset_strings():
 	saved_attack = 'nil';
 	attack_str = "";
 
+### Stops and resets all timers and related variables ###
 func stopTimers():
 	$InterruptTimer.stop();
 	$RecoilTimer.stop();
@@ -327,25 +341,28 @@ func stopTimers():
 	combo_end = false;
 	pass;
 
+
+### Timer for player recoil post-attack ###
 func _on_RecoilTimer_timeout():
-	$InterruptTimer.wait_time = interrupt;
+	$InterruptTimer.wait_time = interrupt_time;
 	$InterruptTimer.start();
 	reset_strings();
 	track_input = true;
 	pass;
 
-
+### Timer allowing for player to interrupt the current attack and animation ###
 func _on_InterruptTimer_timeout():
 	if(Input.is_action_pressed("attack")):
 		track_input = false;
 	combo_end = true;
 	pass;
 
-
+### Timer allowing player to float a little after an attack lands mid-air ###
 func _on_FloatTimer_timeout():
 	floating = false;
 	pass;
 
+### Timer allowing player to vault using certain special attacks ###
 func _on_Attack_vault():
 	host.get_node("vault_cast").cast_to = Vector2(0, cast_length);
 	if(dir == "horizontal" && current_attack == "basic"):
@@ -353,14 +370,14 @@ func _on_Attack_vault():
 		host.hspd = 500 * host.Direction;
 		host.vspd = -200;
 		
-		$VaultTimer.wait_time = val;
+		$VaultTimer.wait_time = vault_time;
 	else:
 		host.animate("vault_still");
 		$VaultTimer.wait_time = 0.1;
 	$VaultTimer.start();
 	pass;
 
-
+### Ends the vault sending the player to the vault state ###
 func _on_VaultTimer_timeout():
 	host.hspd = 0;
 	host.vspd = 0;

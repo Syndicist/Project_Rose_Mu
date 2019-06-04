@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Rose-thumbup.png-d901c8fc4915b1339212997574c0d928.stex"
+path="res://.import/hor_ground_1.png-1d814cf2fbb22019c9b82c6a4ae0c4ae.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Actors/Rose/Rose-thumbup.png"
-dest_files=[ "res://.import/Rose-thumbup.png-d901c8fc4915b1339212997574c0d928.stex" ]
+source_file="res://Assets/Sprites/Actors/Rose/Slashing/hor_ground_1.png"
+dest_files=[ "res://.import/hor_ground_1.png-1d814cf2fbb22019c9b82c6a4ae0c4ae.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -30,5 +30,5 @@ process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

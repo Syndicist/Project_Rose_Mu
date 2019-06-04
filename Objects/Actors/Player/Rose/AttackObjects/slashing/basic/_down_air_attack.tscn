@@ -4,14 +4,13 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/BounceAttack.gd" type="Script" id=2]
 
 [node name="XAttack" instance=ExtResource( 1 )]
+rotation = 1.5708
 script = ExtResource( 2 )
+wind = 0.1
 recoil = 0.1
-speedx = 400.0
+speedx = 0.0
 speedy = 300.0
-fl = 0.3
-knockback = Vector2( 50, 100 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
-rotation = 1.5708
-polygon = PoolVector2Array( 5, -7, 50, -3, 53, 0, 50, 3, 5, 7, 10, 0 )
+polygon = PoolVector2Array( 5, -7, 25, -35, 45, -25, 55, 0, 45, 25, 25, 35, 5, 7, 10, 0 )
 

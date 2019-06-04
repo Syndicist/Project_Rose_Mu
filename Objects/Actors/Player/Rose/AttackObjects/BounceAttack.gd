@@ -6,20 +6,17 @@ func initialize():
 	attack_traversal.y = 16;
 	pass;
 
-func _physics_process(delta):
-	displacex();
-	displacey();
-	pass;
-
 func _on_AttackTimer_timeout():
 	._on_AttackTimer_timeout();
+	attack_state.floating = false;
+	attack_state.get_node("FloatTimer").paused = true;
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
-	attack_state.dashing = false;
 	pass;
 
 func on_area_entered(area):
 	.on_area_entered(area);
 	host.hspd = speedx * host.Direction * mDir;
 	host.vspd = -speedy;
+	attack_state.dashing = false;
 	pass;

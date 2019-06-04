@@ -8,7 +8,6 @@ func _on_AttackTimer_timeout():
 		attack_state.floating = true;
 		attack_state.get_node("FloatTimer").wait_time = fl;
 		attack_state.get_node("FloatTimer").start();
-		host.vspd = 0;
 	attack_state.get_node("RecoilTimer").wait_time = recoil;
 	attack_state.get_node("RecoilTimer").start();
 	attack_state.dashing = false;

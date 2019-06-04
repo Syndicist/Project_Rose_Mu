@@ -4,13 +4,12 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/AttackObjects/MoveAttack.gd" type="Script" id=2]
 
 [node name="XAttack" index="0" instance=ExtResource( 1 )]
+rotation = -0.785398
 script = ExtResource( 2 )
 recoil = 0.1
 speedy = 0.0
-knockback = Vector2( 50, -50 )
-movey = false
+knockback = Vector2( 50, 0 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
-rotation = -0.785398
-polygon = PoolVector2Array( 5, -7, 50, -3, 53, 0, 50, 3, 5, 7, 10, 0 )
+polygon = PoolVector2Array( 5, -7, 25, -35, 45, -25, 55, 0, 45, 25, 25, 35, 5, 7, 10, 0 )
 

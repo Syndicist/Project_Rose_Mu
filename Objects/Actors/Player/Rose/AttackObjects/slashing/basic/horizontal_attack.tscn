@@ -10,5 +10,5 @@ speedy = 0.0
 knockback = Vector2( 50, 0 )
 
 [node name="collider" type="CollisionPolygon2D" parent="." index="1"]
-polygon = PoolVector2Array( 5, -7, 25, -25, 35, -15, 40, 0, 35, 15, 25, 25, 5, 7, 10, 0 )
+polygon = PoolVector2Array( 5, -7, 25, -35, 45, -25, 55, 0, 45, 25, 25, 35, 5, 7, 10, 0 )
 

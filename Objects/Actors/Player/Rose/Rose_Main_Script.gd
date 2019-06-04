@@ -35,6 +35,7 @@ var deg = 0.0;
 var mouse_enabled = true;
 
 func _ready():
+	reset_hitbox();
 	$Camera2D.current = true;
 	$Stamina_Timer.wait_time = .1
 	max_hp = 1;
@@ -43,6 +44,7 @@ func _ready():
 	jspd = 400;
 	hp = max_hp;
 	tag = "player";
+	gravity = 1800;
 	pass;
 
 func execute(delta):
@@ -68,6 +70,7 @@ func phys_execute(delta):
 	velocity.y = vspd;
 	velocity.x = hspd;
 	velocity = move_and_slide(velocity, floor_normal);
+	print(velocity.y);
 	#no gravity acceleration when on floor
 	if(is_on_floor()):
 		air_time = 0;
@@ -87,7 +90,12 @@ func phys_execute(delta):
 	pass;
 
 func grav_activated():
-	return (!states['attack'].dashing && !states['attack'].floating && state != 'ledge_grab' && !states['vault'].vaulting && !states['vault'].vaulted);
+	return (!states['attack'].dashing && 
+			!states['attack'].floating && 
+			state != 'ledge_grab' && 
+			!states['vault'].vaulting &&
+			!states['vault'].vaulted &&
+			!states['move_in_air'].jumping );
 
 func _on_DetectHitboxArea_area_entered(area):
 	if(!targettableHitboxes.has(area)):
@@ -173,3 +181,10 @@ func mouse_l():
 
 func mouse_d():
 	return (deg < 150 && deg > 30) && mouse_enabled;
+
+func reset_hitbox():
+	$CollisionShape2D.scale.y = 1
+	$CollisionShape2D.position.y = 0;
+	$Hitbox/CollisionShape2D2.scale.y = 1;
+	$Hitbox/CollisionShape2D2.position.y = 0;
+	pass;
