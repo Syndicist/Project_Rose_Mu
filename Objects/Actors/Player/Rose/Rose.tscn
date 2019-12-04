@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose_Main_Script.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Actors/Rose/Rose_Fall.png" type="Texture" id=2]
@@ -34,7 +34,9 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/Attack_State.gd" type="Script" id=32]
 [ext_resource path="res://Objects/Actors/Player/Rose/Ledge_Grab_State.gd" type="Script" id=33]
 [ext_resource path="res://Objects/Actors/Player/Rose/Vault_State.gd" type="Script" id=34]
-[ext_resource path="res://Objects/Actors/Player/Rose/SliceTexture.gd" type="Script" id=35]
+[ext_resource path="res://Assets/Sprites/Actors/Rose/Basic_Slash_Attacks_Edit2.png" type="Texture" id=35]
+[ext_resource path="res://Objects/Actors/Player/Rose/SliceTexture.gd" type="Script" id=36]
+[ext_resource path="res://Assets/Sprites/Actors/Rose/Basic_Slash_Attacks_Edit.png" type="Texture" id=37]
 
 [sub_resource type="Animation" id=1]
 length = 0.3
@@ -1353,8 +1355,6 @@ extents = Vector2( 10, 19 )
 [sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 254.779, 147.421 )
 
-[sub_resource type="AnimatedTexture" id=32]
-
 [node name="Rose" type="KinematicBody2D"]
 position = Vector2( -1, 0 )
 collision_layer = 2
@@ -1393,6 +1393,7 @@ anims/slashing_up_ground_magic_special = SubResource( 28 )
 anims/vault_lift = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 17 )
 hframes = 7
 frame = 3
@@ -1479,13 +1480,24 @@ autostart = true
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 
 [node name="Bone2D" type="Bone2D" parent="Skeleton2D"]
+position = Vector2( -0.894962, 18.5953 )
+rotation = -1.5505
+rest = Transform2D( 0.020297, -0.999794, 0.999794, 0.020297, -0.894962, 18.5953 )
+
+[node name="Bone2D" type="Bone2D" parent="Skeleton2D/Bone2D"]
+position = Vector2( 12.2327, -0.049407 )
+rest = Transform2D( 1, 0, 0, 1, 12.2327, -0.049407 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( -96, -96 )
-texture = SubResource( 32 )
-polygon = PoolVector2Array( 0, 0, 192, 0, 192, 192, 0, 192 )
-script = ExtResource( 35 )
-tex = ExtResource( 18 )
+rotation = -0.00063646
+texture = ExtResource( 35 )
+skeleton = NodePath("../Skeleton2D")
+polygon = PoolVector2Array( 66.3889, 48.3333, 178.333, 69.7222, 151.389, 136.667, 79.1667, 125 )
+uv = PoolVector2Array( 66.3889, 48.3333, 178.333, 69.7222, 151.389, 136.667, 79.1667, 125 )
+bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 1, 0 ), NodePath("Bone2D/Bone2D"), PoolRealArray( 0, 0, 0, 0 ) ]
+script = ExtResource( 36 )
+tex = ExtResource( 37 )
 imgA = [  ]
 [connection signal="consume_resource" from="." to="." method="_on_Rose_consume_resource"]
 [connection signal="vault" from="States/Attack" to="States/Attack" method="_on_Attack_vault"]
