@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Objects/Actors/Player/Rose/Rose_Main_Script.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Actors/Rose/Rose_Fall.png" type="Texture" id=2]
@@ -34,6 +34,7 @@
 [ext_resource path="res://Objects/Actors/Player/Rose/Attack_State.gd" type="Script" id=32]
 [ext_resource path="res://Objects/Actors/Player/Rose/Ledge_Grab_State.gd" type="Script" id=33]
 [ext_resource path="res://Objects/Actors/Player/Rose/Vault_State.gd" type="Script" id=34]
+[ext_resource path="res://Objects/Actors/Player/Rose/SliceTexture.gd" type="Script" id=35]
 
 [sub_resource type="Animation" id=1]
 length = 0.3
@@ -1352,6 +1353,8 @@ extents = Vector2( 10, 19 )
 [sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 254.779, 147.421 )
 
+[sub_resource type="AnimatedTexture" id=32]
+
 [node name="Rose" type="KinematicBody2D"]
 position = Vector2( -1, 0 )
 collision_layer = 2
@@ -1411,6 +1414,7 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="States" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Move_On_Ground" type="Node2D" parent="States"]
 script = ExtResource( 30 )
@@ -1471,6 +1475,18 @@ collision_mask = 33
 
 [node name="Stamina_Timer" type="Timer" parent="."]
 autostart = true
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]
+
+[node name="Bone2D" type="Bone2D" parent="Skeleton2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -96, -96 )
+texture = SubResource( 32 )
+polygon = PoolVector2Array( 0, 0, 192, 0, 192, 192, 0, 192 )
+script = ExtResource( 35 )
+tex = ExtResource( 18 )
+imgA = [  ]
 [connection signal="consume_resource" from="." to="." method="_on_Rose_consume_resource"]
 [connection signal="vault" from="States/Attack" to="States/Attack" method="_on_Attack_vault"]
 [connection signal="timeout" from="States/Attack/InterruptTimer" to="States/Attack" method="_on_InterruptTimer_timeout"]

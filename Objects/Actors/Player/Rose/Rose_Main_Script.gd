@@ -70,7 +70,6 @@ func phys_execute(delta):
 	velocity.y = vspd;
 	velocity.x = hspd;
 	velocity = move_and_slide(velocity, floor_normal);
-	print(velocity.y);
 	#no gravity acceleration when on floor
 	if(is_on_floor()):
 		air_time = 0;
